@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotification } from '../../context/NotificationContext';
-import { FiActivity, FiUser, FiMail, FiLock, FiPhone, FiCalendar, FiArrowRight, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiActivity, FiUser, FiMail, FiLock, FiPhone, FiCalendar, FiArrowRight, FiEye, FiEyeOff, FiTarget } from 'react-icons/fi';
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -10,10 +10,12 @@ export const RegisterPage = () => {
     email: '',
     password: '',
     phone: '',
+    role: 'MEMBER',
     gender: 'MALE',
     date_of_birth: '',
     emergency_contact: '',
-    height_cm: 175
+    height_cm: 175,
+    weight_kg: 70
   });
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -30,7 +32,11 @@ export const RegisterPage = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await register({ ...formData, role: 'MEMBER' });
+      await register({
+        ...formData,
+        height_cm: parseFloat(formData.height_cm) || 170,
+        weight_kg: parseFloat(formData.weight_kg) || 70
+      });
       addToast('Registration successful! Please login with your credentials.', 'success');
       navigate('/login');
     } catch (err) {
@@ -82,7 +88,7 @@ export const RegisterPage = () => {
             <FiActivity color="#FFF" size={30} />
           </div>
           <h3 className="brand-title text-white fw-bold mb-1 fs-3">Join Gymkhana Today</h3>
-          <p className="auth-subheading mb-0">Create your member account to start tracking workouts & diets</p>
+          <p className="auth-subheading mb-0">Create your account to start managing fitness & training</p>
         </div>
 
         <form onSubmit={handleSubmit} className="row g-3">
@@ -149,6 +155,25 @@ export const RegisterPage = () => {
           </div>
 
           <div className="col-md-6">
+            <label className="form-label-custom">Purpose (Account Type)</label>
+            <div className="input-icon-wrapper">
+              <span className="input-icon-left">
+                <FiTarget size={18} />
+              </span>
+              <select
+                name="role"
+                className="form-select glass-input ps-5"
+                value={formData.role}
+                onChange={handleChange}
+                required
+              >
+                <option value="MEMBER" style={{ background: '#0F172A', color: '#FFF' }}>Member</option>
+                <option value="TRAINER" style={{ background: '#0F172A', color: '#FFF' }}>Trainer</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="col-md-6">
             <label className="form-label-custom">Phone Number</label>
             <div className="input-icon-wrapper">
               <span className="input-icon-left">
@@ -202,6 +227,21 @@ export const RegisterPage = () => {
               name="height_cm"
               className="form-control glass-input"
               value={formData.height_cm}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label-custom">Weight (kg)</label>
+            <input
+              type="number"
+              name="weight_kg"
+              step="0.1"
+              min="20"
+              max="300"
+              className="form-control glass-input"
+              placeholder="70"
+              value={formData.weight_kg}
               onChange={handleChange}
             />
           </div>

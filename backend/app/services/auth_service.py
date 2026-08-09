@@ -40,6 +40,20 @@ class AuthService:
                 height_cm=data.get('height_cm', 170.0)
             )
             db.session.add(member)
+            db.session.flush()
+
+            weight_val = data.get('weight_kg') or data.get('weight')
+            if weight_val:
+                from datetime import date
+                from app.models.progress import ProgressRecord
+                pr = ProgressRecord(
+                    member_id=member.id,
+                    record_date=date.today(),
+                    weight=float(weight_val),
+                    notes="Initial registration weight."
+                )
+                pr.calculate_bmi(member.height_cm)
+                db.session.add(pr)
 
         db.session.commit()
         return user

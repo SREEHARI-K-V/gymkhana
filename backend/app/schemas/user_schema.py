@@ -19,6 +19,7 @@ class UserRegisterSchema(Schema):
     gender = fields.Str(allow_none=True, validate=validate.OneOf(['MALE', 'FEMALE', 'OTHER']))
     emergency_contact = fields.Str(allow_none=True)
     height_cm = fields.Float(allow_none=True)
+    weight_kg = fields.Float(allow_none=True)
     trainer_id = fields.Int(allow_none=True)
     # Extra fields for TRAINER registration
     specialization = fields.Str(allow_none=True)
