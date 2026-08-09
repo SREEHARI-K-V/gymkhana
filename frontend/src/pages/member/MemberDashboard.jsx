@@ -38,6 +38,48 @@ export const MemberDashboard = () => {
         </button>
       </div>
 
+      {/* Gym Centers & Slot Booking Highlight - Located First */}
+      <div className="glass-card-static p-4 border border-primary border-opacity-25">
+        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+          <div>
+            <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
+              <FiMapPin className="text-cyan" /> Gym Centers & Slot Booking
+            </h4>
+            <p className="text-muted small mb-0">Explore Gymkhana locations, view available amenities, and reserve training slots.</p>
+          </div>
+          <button
+            onClick={() => navigate('/member/gyms')}
+            className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 text-nowrap"
+          >
+            <FiCalendar size={16} />
+            <span>Book Gym Slot</span>
+          </button>
+        </div>
+
+        <div className="row g-3">
+          {(data?.gyms || []).slice(0, 3).map((gym) => (
+            <div key={gym.id} className="col-12 col-md-4">
+              <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div className="d-flex align-items-center justify-content-between mb-2">
+                    <span className="badge badge-active">{gym.city}</span>
+                    <small className="text-warning fw-bold">★ {gym.rating}</small>
+                  </div>
+                  <h6 className="text-white font-weight-bold mb-1">{gym.name}</h6>
+                  <small className="text-muted d-block mb-2">{gym.address}</small>
+                </div>
+                <button
+                  onClick={() => navigate('/member/gyms')}
+                  className="btn btn-secondary-glass btn-sm w-100 mt-2"
+                >
+                  View Slots & Book →
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Subscription Status Card Module 5 */}
       <div className="row g-3">
         <div className="col-12 col-md-4">
@@ -171,48 +213,6 @@ export const MemberDashboard = () => {
               </div>
             )}
           </div>
-        </div>
-      </div>
-
-      {/* Gym Locations & Slot Booking Highlight */}
-      <div className="glass-card-static p-4">
-        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
-          <div>
-            <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
-              <FiMapPin className="text-cyan" /> Gym Centers & Slot Booking
-            </h4>
-            <p className="text-muted small mb-0">Explore Gymkhana locations, view available amenities, and reserve training slots.</p>
-          </div>
-          <button
-            onClick={() => navigate('/member/gyms')}
-            className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 text-nowrap"
-          >
-            <FiCalendar size={16} />
-            <span>Book Gym Slot</span>
-          </button>
-        </div>
-
-        <div className="row g-3">
-          {(data?.gyms || []).slice(0, 3).map((gym) => (
-            <div key={gym.id} className="col-12 col-md-4">
-              <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between">
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-2">
-                    <span className="badge badge-active">{gym.city}</span>
-                    <small className="text-warning fw-bold">★ {gym.rating}</small>
-                  </div>
-                  <h6 className="text-white font-weight-bold mb-1">{gym.name}</h6>
-                  <small className="text-muted d-block mb-2">{gym.address}</small>
-                </div>
-                <button
-                  onClick={() => navigate('/member/gyms')}
-                  className="btn btn-secondary-glass btn-sm w-100 mt-2"
-                >
-                  View Slots & Book →
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
