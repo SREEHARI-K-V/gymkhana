@@ -9,9 +9,19 @@ from app.models.workout import WorkoutPlan, WorkoutExercise
 from app.models.diet import DietPlan, DietMeal
 from app.models.progress import ProgressRecord
 
-def seed_database():
-    app = create_app('development')
+def seed_database(app=None, force=False):
+    if not app:
+        app = create_app()
     with app.app_context():
+        if not force:
+            try:
+                db.create_all()
+                if User.query.first() is not None:
+                    print("Database already contains data. Skipping auto-seed.")
+                    return
+            except Exception as e:
+                print("Checking database readiness:", e)
+
         print("Clearing database tables...")
         db.drop_all()
         db.create_all()
