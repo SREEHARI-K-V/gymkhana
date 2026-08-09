@@ -145,7 +145,7 @@ export const LoginPage = () => {
               </>
             ) : (
               <>
-                <span>Sign In to Dashboard</span>
+                <span>Sign In</span>
                 <FiArrowRight size={18} />
               </>
             )}
