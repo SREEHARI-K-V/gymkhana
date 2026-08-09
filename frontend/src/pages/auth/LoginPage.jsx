@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotification } from '../../context/NotificationContext';
-import { FiActivity, FiLock, FiMail, FiArrowRight, FiEye, FiEyeOff, FiShield, FiUserCheck, FiUser } from 'react-icons/fi';
+import { FiActivity, FiLock, FiMail, FiArrowRight, FiEye, FiEyeOff } from 'react-icons/fi';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -29,11 +29,6 @@ export const LoginPage = () => {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const fillQuickAccount = (demoEmail, demoPass) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
   };
 
   return (
@@ -157,43 +152,7 @@ export const LoginPage = () => {
           </button>
         </form>
 
-        {/* Demo Quick Login Shortcuts */}
-        <div className="mt-4 pt-3 border-top border-secondary border-opacity-25">
-          <div className="text-center mb-2">
-            <small className="fw-semibold" style={{ color: '#94A3B8', fontSize: '0.8rem', letterSpacing: '0.5px' }}>
-              ⚡ QUICK DEMO ACCESSS:
-            </small>
-          </div>
-          <div className="d-flex justify-content-center gap-2 flex-wrap">
-            <button
-              onClick={() => fillQuickAccount('admin@gymkhana.com', 'admin123')}
-              className="btn btn-secondary-glass btn-sm d-flex align-items-center gap-1 text-nowrap py-1.5 px-3"
-              type="button"
-              style={{ fontSize: '0.8rem' }}
-            >
-              <FiShield size={14} className="text-cyan" />
-              <span>Admin</span>
-            </button>
-            <button
-              onClick={() => fillQuickAccount('alex.trainer@gymkhana.com', 'trainer123')}
-              className="btn btn-secondary-glass btn-sm d-flex align-items-center gap-1 text-nowrap py-1.5 px-3"
-              type="button"
-              style={{ fontSize: '0.8rem' }}
-            >
-              <FiUserCheck size={14} style={{ color: '#A7F3D0' }} />
-              <span>Trainer</span>
-            </button>
-            <button
-              onClick={() => fillQuickAccount('john@gmail.com', 'member123')}
-              className="btn btn-secondary-glass btn-sm d-flex align-items-center gap-1 text-nowrap py-1.5 px-3"
-              type="button"
-              style={{ fontSize: '0.8rem' }}
-            >
-              <FiUser size={14} style={{ color: '#FDE68A' }} />
-              <span>Member</span>
-            </button>
-          </div>
-        </div>
+
 
         {/* Register CTA Footer */}
         <div className="text-center mt-4">
