@@ -158,7 +158,7 @@ export const LoginPage = () => {
         <div className="text-center mt-4">
           <span className="auth-footer-text">Don't have an account? </span>
           <Link to="/register" className="auth-link ms-1">
-            Create Member Account
+            Create Account
           </Link>
         </div>
       </div>
