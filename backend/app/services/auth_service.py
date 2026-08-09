@@ -31,10 +31,18 @@ class AuthService:
             )
             db.session.add(trainer)
         elif role == 'MEMBER':
+            dob_val = data.get('date_of_birth')
+            if dob_val and isinstance(dob_val, str):
+                try:
+                    from datetime import date
+                    dob_val = date.fromisoformat(dob_val)
+                except ValueError:
+                    dob_val = None
+
             member = Member(
                 user_id=user.id,
                 trainer_id=data.get('trainer_id'),
-                date_of_birth=data.get('date_of_birth'),
+                date_of_birth=dob_val,
                 gender=data.get('gender'),
                 emergency_contact=data.get('emergency_contact'),
                 height_cm=data.get('height_cm', 170.0)
