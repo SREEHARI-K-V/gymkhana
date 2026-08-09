@@ -7,10 +7,6 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.env
 
 def get_db_uri():
     db_url = os.getenv('DATABASE_URL')
-    if db_url:
-        if db_url.startswith('postgres://'):
-            db_url = db_url.replace('postgres://', 'postgresql://', 1)
-        return db_url
     
     # On Vercel / Serverless / Linux, current working directory is read-only.
     # Always use /tmp directory for writable SQLite database.
@@ -20,6 +16,15 @@ def get_db_uri():
         os.getenv('AWS_LAMBDA_FUNCTION_NAME') is not None or
         os.name != 'nt'
     )
+    
+    if db_url:
+        if db_url.startswith('postgres://'):
+            return db_url.replace('postgres://', 'postgresql://', 1)
+        if is_serverless and 'sqlite' in db_url and '/tmp/' not in db_url:
+            tmp_dir = tempfile.gettempdir()
+            db_path = os.path.join(tmp_dir, 'gymkhana.db').replace('\\', '/')
+            return f'sqlite:///{db_path}'
+        return db_url
     
     if is_serverless:
         tmp_dir = tempfile.gettempdir()
