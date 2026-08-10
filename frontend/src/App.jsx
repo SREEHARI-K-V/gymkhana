@@ -34,7 +34,6 @@ import { MySubscription } from './pages/member/MySubscription';
 import { WorkoutPlanView } from './pages/member/WorkoutPlanView';
 import { DietPlanView } from './pages/member/DietPlanView';
 import { ProgressTracker } from './pages/member/ProgressTracker';
-import { GymsBooking } from './pages/member/GymsBooking';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -124,7 +123,6 @@ export default function App() {
               }
             >
               <Route index element={<MemberDashboard />} />
-              <Route path="gyms" element={<GymsBooking />} />
               <Route path="tracker" element={<DailyTracker />} />
               <Route path="subscription" element={<MySubscription />} />
               <Route path="workout" element={<WorkoutPlanView />} />

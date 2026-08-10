@@ -4,10 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { SkeletonLoader } from '../../components/SkeletonLoader';
 import { StatCard } from '../../components/StatCard';
 import { ProgressAnalyticsChart } from '../../components/ProgressAnalyticsChart';
-import { 
-  FiCalendar, FiClock, FiActivity, FiPieChart, FiCheckSquare, 
-  FiArrowRight, FiMapPin, FiNavigation, FiDollarSign, FiPhone, FiStar, FiCheckCircle
-} from 'react-icons/fi';
+import { FiCalendar, FiClock, FiActivity, FiPieChart, FiCheckSquare, FiArrowRight, FiMapPin } from 'react-icons/fi';
 
 export const MemberDashboard = () => {
   const { data, loading, error } = useFetch('/member/dashboard');
@@ -22,8 +19,6 @@ export const MemberDashboard = () => {
   const todaysExercises = data?.todays_exercises || [];
   const todaysMeals = data?.todays_meals || [];
   const progressSummary = data?.progress_summary || {};
-  const activeBookings = data?.active_bookings || [];
-  const gyms = data?.gyms || [];
 
   return (
     <div className="d-flex flex-column gap-4">
@@ -50,135 +45,42 @@ export const MemberDashboard = () => {
             <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
               <FiMapPin className="text-cyan" /> Gym Centers & Slot Booking
             </h4>
-            <p className="text-muted small mb-0">Explore Gymkhana locations, view place details, membership plans, available slots & book workout sessions.</p>
+            <p className="text-muted small mb-0">Explore Gymkhana locations, view available amenities, and reserve training slots.</p>
           </div>
           <button
             onClick={() => navigate('/member/gyms')}
             className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 text-nowrap"
           >
             <FiCalendar size={16} />
-            <span>Explore All Gym Centers ({gyms.length})</span>
+            <span>Book Gym Slot</span>
           </button>
         </div>
 
-        {/* Active Passes Banner if any */}
-        {activeBookings.length > 0 && (
-          <div className="glass-card p-3 rounded-3 mb-4 border border-success border-opacity-50 bg-success bg-opacity-10">
-            <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-              <div className="d-flex align-items-center gap-2">
-                <FiCheckCircle className="text-success" size={18} />
-                <div>
-                  <span className="text-white font-weight-bold d-block small">My Active Gym Pass</span>
-                  <small className="text-muted">
-                    {activeBookings[0].gym_name} ({activeBookings[0].gym_place}) • {activeBookings[0].booking_date} @ {activeBookings[0].slot_time}
-                  </small>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate('/member/gyms')}
-                className="btn btn-cyan-gradient btn-sm"
-              >
-                View Pass Code ({activeBookings[0].pass_code})
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Gym Details List Cards */}
         <div className="row g-3">
-          {gyms.slice(0, 3).map((gym) => (
+          {(data?.gyms || []).slice(0, 3).map((gym) => (
             <div key={gym.id} className="col-12 col-md-4">
-              <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between border border-secondary border-opacity-25 hover-lift">
+              <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between">
                 <div>
-                  {/* Gym Header */}
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <span className="badge badge-active">📍 {gym.city}</span>
-                    <small className="text-warning fw-bold d-flex align-items-center gap-1">
-                      <FiStar size={12} fill="#EAB308" /> {gym.rating}
-                    </small>
+                    <span className="badge badge-active">{gym.city}</span>
+                    <small className="text-warning fw-bold">★ {gym.rating}</small>
                   </div>
-                  
-                  {/* Gym Name & Place */}
                   <h6 className="text-white font-weight-bold mb-1">{gym.name}</h6>
-                  <p className="text-cyan small mb-2 fw-semibold" style={{ fontSize: '0.82rem' }}>
-                    <FiNavigation className="me-1" size={12} />
-                    {gym.place || gym.address}
-                  </p>
-                  
-                  <small className="text-muted d-block mb-2 text-truncate">
-                    <FiMapPin size={11} className="me-1" />
-                    {gym.address}
-                  </small>
-
-                  {/* Hours & Contact */}
-                  <div className="d-flex align-items-center gap-2 text-muted small mb-2 glass-card-static p-2 rounded-2" style={{ fontSize: '0.78rem' }}>
-                    <span className="d-flex align-items-center gap-1 text-truncate">
-                      <FiClock size={12} className="text-cyan" /> {gym.operating_hours}
-                    </span>
-                  </div>
-
-                  {/* Plans & Pricing Badges */}
-                  {gym.plans && gym.plans.length > 0 && (
-                    <div className="mb-2">
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.75rem' }}>
-                        <FiDollarSign size={12} className="text-success me-1" />
-                        Plans starting from:
-                      </small>
-                      <div className="d-flex flex-wrap gap-1">
-                        {gym.plans.slice(0, 2).map((p, pIdx) => (
-                          <span 
-                            key={pIdx} 
-                            className="badge bg-dark border border-primary border-opacity-25 text-white" 
-                            style={{ fontSize: '0.7rem' }}
-                          >
-                            {p.title}: <strong className="text-cyan">${p.price}</strong>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Available Slots Preview */}
-                  {gym.available_slots && (
-                    <div>
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.75rem' }}>Available Slots:</small>
-                      <div className="d-flex flex-wrap gap-1">
-                        {gym.available_slots.slice(0, 2).map((s, sIdx) => (
-                          <span key={sIdx} className="badge badge-role" style={{ fontSize: '0.68rem' }}>
-                            {s.split(' - ')[0]}
-                          </span>
-                        ))}
-                        {gym.available_slots.length > 2 && (
-                          <span className="badge bg-secondary text-white" style={{ fontSize: '0.68rem' }}>
-                            +{gym.available_slots.length - 2} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  <small className="text-muted d-block mb-2">{gym.address}</small>
                 </div>
-
-                <div className="d-flex gap-2 mt-3 pt-2 border-top border-secondary border-opacity-25">
-                  <button
-                    onClick={() => navigate('/member/gyms')}
-                    className="btn btn-secondary-glass btn-sm flex-fill"
-                  >
-                    View Details
-                  </button>
-                  <button
-                    onClick={() => navigate('/member/gyms')}
-                    className="btn btn-primary-gradient btn-sm flex-fill"
-                  >
-                    Book Slot
-                  </button>
-                </div>
+                <button
+                  onClick={() => navigate('/member/gyms')}
+                  className="btn btn-secondary-glass btn-sm w-100 mt-2"
+                >
+                  View Slots & Book →
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Subscription Status Card Module */}
+      {/* Subscription Status Card Module 5 */}
       <div className="row g-3">
         <div className="col-12 col-md-4">
           <div className="glass-card-static p-4 h-100 d-flex flex-column justify-content-between">
