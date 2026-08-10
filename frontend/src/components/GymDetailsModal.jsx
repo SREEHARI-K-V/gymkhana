@@ -89,7 +89,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
       className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center z-3 p-3 overflow-y-auto" 
       style={{ background: 'rgba(0, 0, 0, 0.85)', backdropFilter: 'blur(10px)' }}
     >
-      <div className="glass-card p-4 p-sm-5 w-100 my-auto position-relative" style={{ maxWidth: '840px', borderRadius: '24px' }}>
+      <div className="glass-card p-4 p-sm-5 w-100 my-auto position-relative" style={{ maxWidth: '860px', borderRadius: '24px' }}>
         
         {/* Digital Pass Overlay View if active */}
         {digitalPass ? (
@@ -296,59 +296,113 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
                   </div>
                 </div>
 
-                {/* List of All Gym Details */}
-                <div className="d-flex flex-column gap-3 max-vh-50 overflow-y-auto pe-1">
+                {/* Detailed List of All Gyms */}
+                <div className="d-flex flex-column gap-3 overflow-y-auto pe-1" style={{ maxHeight: '420px' }}>
                   {filteredDirectoryGyms.map((g) => (
                     <div key={g.id} className="glass-card p-3 rounded-3 border border-secondary border-opacity-25 hover-lift">
                       <div className="row g-3 align-items-center">
-                        <div className="col-12 col-sm-3">
-                          <div className="position-relative rounded-2 overflow-hidden" style={{ height: '110px' }}>
+                        {/* Gym Image & Badges */}
+                        <div className="col-12 col-md-3">
+                          <div className="position-relative rounded-2 overflow-hidden" style={{ height: '120px' }}>
                             <img src={g.image} alt={g.name} className="w-100 h-100 object-fit-cover" />
-                            <div className="position-absolute top-0 start-0 m-1 badge badge-active" style={{ fontSize: '0.65rem' }}>
+                            <div className="position-absolute top-0 start-0 m-1 badge badge-active" style={{ fontSize: '0.68rem' }}>
                               📍 {g.city}
+                            </div>
+                            <div className="position-absolute bottom-0 start-0 m-1 badge bg-dark bg-opacity-80 text-warning" style={{ fontSize: '0.68rem' }}>
+                              ★ {g.rating}
                             </div>
                           </div>
                         </div>
 
-                        <div className="col-12 col-sm-6">
+                        {/* Main Details (Name, Place, Address, Hours, Phone, Plans, Slots, Facilities) */}
+                        <div className="col-12 col-md-6">
                           <div className="d-flex align-items-center justify-content-between mb-1">
                             <h6 className="text-white font-weight-bold mb-0">{g.name}</h6>
-                            <small className="text-warning fw-bold">★ {g.rating}</small>
+                            <span className="badge bg-primary bg-opacity-25 text-cyan" style={{ fontSize: '0.7rem' }}>
+                              {g.capacity_status || 'Open Today'}
+                            </span>
                           </div>
+                          
                           <p className="text-cyan small mb-1 fw-semibold" style={{ fontSize: '0.8rem' }}>
                             <FiNavigation size={12} className="me-1" /> Place: {g.place || g.address}
                           </p>
+                          
                           <small className="text-muted d-block mb-2" style={{ fontSize: '0.75rem' }}>
-                            <FiClock size={11} className="me-1 text-cyan" /> {g.operating_hours} • {g.phone}
+                            <FiMapPin size={11} className="me-1" /> {g.address} {g.landmark && `• Landmark: ${g.landmark}`}
                           </small>
 
-                          {/* Plans Badges */}
+                          <div className="d-flex flex-wrap align-items-center gap-3 text-muted small mb-2" style={{ fontSize: '0.75rem' }}>
+                            <span><FiClock size={11} className="me-1 text-cyan" /> {g.operating_hours}</span>
+                            <span><FiPhone size={11} className="me-1 text-cyan" /> {g.phone}</span>
+                          </div>
+
+                          {/* Plans & Pricing Badges */}
                           {g.plans && (
-                            <div className="d-flex flex-wrap gap-1">
-                              {g.plans.slice(0, 3).map((p, pIdx) => (
-                                <span key={pIdx} className="badge bg-dark border border-primary border-opacity-25 text-white" style={{ fontSize: '0.68rem' }}>
-                                  {p.title}: <strong className="text-cyan">${p.price}</strong>
-                                </span>
-                              ))}
+                            <div className="mb-2">
+                              <small className="text-white d-block mb-1 fw-semibold" style={{ fontSize: '0.72rem' }}>
+                                <FiDollarSign size={11} className="text-success me-1" /> Membership Plans:
+                              </small>
+                              <div className="d-flex flex-wrap gap-1">
+                                {g.plans.map((p, pIdx) => (
+                                  <span key={pIdx} className="badge bg-dark border border-primary border-opacity-25 text-white" style={{ fontSize: '0.68rem' }}>
+                                    {p.title}: <strong className="text-cyan">${p.price}</strong>
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Available Slots Preview */}
+                          {g.available_slots && (
+                            <div className="mb-1">
+                              <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.72rem' }}>Available Time Slots:</small>
+                              <div className="d-flex flex-wrap gap-1">
+                                {g.available_slots.slice(0, 3).map((s, sIdx) => (
+                                  <span key={sIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
+                                    🕒 {s.split(' - ')[0]}
+                                  </span>
+                                ))}
+                                {g.available_slots.length > 3 && (
+                                  <span className="badge bg-secondary text-white" style={{ fontSize: '0.65rem' }}>
+                                    +{g.available_slots.length - 3} more
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>
 
-                        <div className="col-12 col-sm-3 d-flex flex-column gap-2">
-                          <button
-                            onClick={() => handleSelectGym(g, 'OVERVIEW')}
-                            className="btn btn-secondary-glass btn-sm w-100 text-nowrap"
-                            style={{ fontSize: '0.8rem' }}
-                          >
-                            <FiInfo className="me-1" size={13} /> Details
-                          </button>
-                          <button
-                            onClick={() => handleSelectGym(g, 'BOOK')}
-                            className="btn btn-primary-gradient btn-sm w-100 text-nowrap"
-                            style={{ fontSize: '0.8rem' }}
-                          >
-                            <FiCalendar className="me-1" size={13} /> Book Slot
-                          </button>
+                        {/* Quick Action Buttons */}
+                        <div className="col-12 col-md-3 border-start-md border-secondary border-opacity-25 ps-md-3 d-flex flex-column justify-content-between h-100">
+                          <div>
+                            <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.72rem' }}>Top Facilities:</small>
+                            <div className="d-flex flex-wrap gap-1 mb-3">
+                              {g.facilities?.slice(0, 3).map((fac, fIdx) => (
+                                <span key={fIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
+                                  {fac}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="d-flex flex-column gap-2 mt-auto">
+                            <button
+                              onClick={() => handleSelectGym(g, 'OVERVIEW')}
+                              className="btn btn-secondary-glass btn-sm w-100 text-nowrap d-flex align-items-center justify-content-center gap-1"
+                              style={{ fontSize: '0.8rem' }}
+                            >
+                              <FiInfo size={13} />
+                              <span>View Details</span>
+                            </button>
+                            <button
+                              onClick={() => handleSelectGym(g, 'BOOK')}
+                              className="btn btn-primary-gradient btn-sm w-100 text-nowrap d-flex align-items-center justify-content-center gap-1"
+                              style={{ fontSize: '0.8rem' }}
+                            >
+                              <FiCalendar size={13} />
+                              <span>Book Gym Slot</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
