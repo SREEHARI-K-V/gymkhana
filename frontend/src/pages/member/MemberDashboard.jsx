@@ -72,7 +72,7 @@ export const MemberDashboard = () => {
               <span>Book Gym Slot</span>
             </button>
             <button
-              onClick={() => navigate('/member/gyms')}
+              onClick={() => handleOpenGymModal(gyms[0], 'ALL_CENTERS')}
               className="btn btn-secondary-glass btn-sm text-nowrap"
             >
               All Centers ({gyms.length}) →

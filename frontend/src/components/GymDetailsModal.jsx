@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   FiMapPin, FiClock, FiPhone, FiStar, FiCalendar, 
   FiCheckCircle, FiActivity, FiUser, FiInfo, FiDollarSign, 
-  FiLayers, FiGrid, FiNavigation, FiZap, FiX, FiCheck
+  FiLayers, FiGrid, FiNavigation, FiZap, FiX, FiCheck, FiSearch, FiFilter
 } from 'react-icons/fi';
 import api from '../services/api';
 import { useNotification } from '../context/NotificationContext';
@@ -11,7 +11,9 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
   const { addToast } = useNotification();
   const [currentGym, setCurrentGym] = useState(gym || allGyms[0] || null);
   const [activeTab, setActiveTab] = useState(initialTab);
-  
+  const [directorySearch, setDirectorySearch] = useState('');
+  const [selectedCityFilter, setSelectedCityFilter] = useState('ALL');
+
   // Plan & Booking Form States
   const [selectedPlan, setSelectedPlan] = useState(
     currentGym?.plans && currentGym.plans.length > 0 ? currentGym.plans[0] : null
@@ -22,16 +24,14 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
   const [bookingLoading, setBookingLoading] = useState(false);
   const [digitalPass, setDigitalPass] = useState(null);
 
-  if (!currentGym) return null;
+  if (!currentGym && allGyms.length === 0) return null;
 
-  const handleSelectGym = (gymId) => {
-    const found = allGyms.find(g => g.id === Number(gymId));
-    if (found) {
-      setCurrentGym(found);
-      const defaultPlan = found.plans && found.plans.length > 0 ? found.plans[0] : null;
-      setSelectedPlan(defaultPlan);
-      setSelectedSlot(found.available_slots?.[0] || '');
-    }
+  const handleSelectGym = (gymObj, tabToOpen = 'OVERVIEW') => {
+    setCurrentGym(gymObj);
+    const defaultPlan = gymObj.plans && gymObj.plans.length > 0 ? gymObj.plans[0] : null;
+    setSelectedPlan(defaultPlan);
+    setSelectedSlot(gymObj.available_slots?.[0] || '');
+    setActiveTab(tabToOpen);
   };
 
   const handleSelectPlanAndBook = (plan) => {
@@ -71,12 +71,25 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
     }
   };
 
+  // Directory filter for ALL_CENTERS tab
+  const citiesList = ['ALL', ...new Set(allGyms.map(g => g.city))];
+  const filteredDirectoryGyms = allGyms.filter(g => {
+    const matchesCity = selectedCityFilter === 'ALL' || g.city === selectedCityFilter || g.place?.includes(selectedCityFilter);
+    const q = directorySearch.toLowerCase();
+    const matchesQuery = !q || 
+      g.name.toLowerCase().includes(q) || 
+      g.place?.toLowerCase().includes(q) || 
+      g.address.toLowerCase().includes(q) ||
+      g.facilities?.some(f => f.toLowerCase().includes(q));
+    return matchesCity && matchesQuery;
+  });
+
   return (
     <div 
       className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center z-3 p-3 overflow-y-auto" 
       style={{ background: 'rgba(0, 0, 0, 0.85)', backdropFilter: 'blur(10px)' }}
     >
-      <div className="glass-card p-4 p-sm-5 w-100 my-auto position-relative" style={{ maxWidth: '820px', borderRadius: '24px' }}>
+      <div className="glass-card p-4 p-sm-5 w-100 my-auto position-relative" style={{ maxWidth: '840px', borderRadius: '24px' }}>
         
         {/* Digital Pass Overlay View if active */}
         {digitalPass ? (
@@ -150,30 +163,39 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
             <div className="d-flex align-items-start justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-3">
               <div>
                 <div className="d-flex align-items-center flex-wrap gap-2 mb-1">
-                  <span className="badge badge-active">📍 {currentGym.city}</span>
-                  <span className="badge bg-warning bg-opacity-25 text-warning d-flex align-items-center gap-1">
-                    <FiStar size={12} fill="#EAB308" /> {currentGym.rating} ({currentGym.reviews_count || 150} reviews)
-                  </span>
-                  <span className="badge bg-dark text-cyan">
-                    <FiZap size={11} className="text-warning me-1" />
-                    {currentGym.capacity_status || 'Open Today'}
-                  </span>
+                  <span className="badge badge-active">📍 {currentGym?.city || 'All Network'}</span>
+                  {currentGym && (
+                    <>
+                      <span className="badge bg-warning bg-opacity-25 text-warning d-flex align-items-center gap-1">
+                        <FiStar size={12} fill="#EAB308" /> {currentGym.rating} ({currentGym.reviews_count || 150} reviews)
+                      </span>
+                      <span className="badge bg-dark text-cyan">
+                        <FiZap size={11} className="text-warning me-1" />
+                        {currentGym.capacity_status || 'Open Today'}
+                      </span>
+                    </>
+                  )}
                 </div>
 
-                <h4 className="text-white font-weight-bold mb-1">{currentGym.name}</h4>
+                <h4 className="text-white font-weight-bold mb-1">
+                  {activeTab === 'ALL_CENTERS' ? 'All Gymkhana Training Centers & Details' : currentGym?.name}
+                </h4>
                 <p className="text-cyan small mb-0 fw-semibold">
                   <FiNavigation className="me-1" size={13} />
-                  Place: {currentGym.place || currentGym.address}
+                  {activeTab === 'ALL_CENTERS' ? 'Explore all official gym locations, membership plans & available slots.' : `Place: ${currentGym?.place || currentGym?.address}`}
                 </p>
               </div>
 
               <div className="d-flex align-items-center gap-2">
                 {/* Gym Selector Dropdown if multiple gyms */}
-                {allGyms.length > 1 && (
+                {allGyms.length > 1 && activeTab !== 'ALL_CENTERS' && (
                   <select 
                     className="form-select form-select-sm glass-input text-white"
-                    value={currentGym.id}
-                    onChange={(e) => handleSelectGym(e.target.value)}
+                    value={currentGym?.id}
+                    onChange={(e) => {
+                      const found = allGyms.find(g => g.id === Number(e.target.value));
+                      if (found) handleSelectGym(found, activeTab);
+                    }}
                     style={{ maxWidth: '180px', fontSize: '0.8rem' }}
                   >
                     {allGyms.map(g => (
@@ -195,6 +217,14 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
             {/* Modal Tabs Navigation */}
             <div className="d-flex align-items-center gap-2 mb-4 border-bottom border-secondary border-opacity-25 pb-2 overflow-x-auto">
               <button
+                onClick={() => setActiveTab('ALL_CENTERS')}
+                className={`btn btn-sm text-nowrap rounded-pill ${
+                  activeTab === 'ALL_CENTERS' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
+                }`}
+              >
+                <FiGrid className="me-1" /> All Centers Directory ({allGyms.length})
+              </button>
+              <button
                 onClick={() => setActiveTab('OVERVIEW')}
                 className={`btn btn-sm text-nowrap rounded-pill ${
                   activeTab === 'OVERVIEW' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
@@ -208,7 +238,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
                   activeTab === 'PLANS' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiDollarSign className="me-1" /> Plans & Pricing ({currentGym.plans?.length || 0})
+                <FiDollarSign className="me-1" /> Plans & Pricing ({currentGym?.plans?.length || 0})
               </button>
               <button
                 onClick={() => setActiveTab('TRAINERS')}
@@ -228,8 +258,107 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
               </button>
             </div>
 
+            {/* TAB: ALL CENTERS DIRECTORY */}
+            {activeTab === 'ALL_CENTERS' && (
+              <div className="d-flex flex-column gap-3">
+                {/* Search & Location Filter inside Directory */}
+                <div className="row g-2 align-items-center mb-2">
+                  <div className="col-12 col-md-6">
+                    <div className="position-relative">
+                      <FiSearch className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" size={16} />
+                      <input
+                        type="text"
+                        className="form-control glass-input ps-5 py-2"
+                        style={{ fontSize: '0.85rem' }}
+                        placeholder="Search gyms by name, place, address..."
+                        value={directorySearch}
+                        onChange={(e) => setDirectorySearch(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <div className="d-flex align-items-center gap-1 overflow-x-auto pb-1">
+                      <span className="text-muted extra-small me-1 text-nowrap">Place:</span>
+                      {citiesList.map((city) => (
+                        <button
+                          key={city}
+                          onClick={() => setSelectedCityFilter(city)}
+                          className={`btn btn-sm py-1 px-2 text-nowrap rounded-pill ${
+                            selectedCityFilter === city ? 'btn-cyan-gradient fw-bold' : 'btn-secondary-glass text-muted'
+                          }`}
+                          style={{ fontSize: '0.75rem' }}
+                        >
+                          {city === 'ALL' ? '📍 All Places' : city}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* List of All Gym Details */}
+                <div className="d-flex flex-column gap-3 max-vh-50 overflow-y-auto pe-1">
+                  {filteredDirectoryGyms.map((g) => (
+                    <div key={g.id} className="glass-card p-3 rounded-3 border border-secondary border-opacity-25 hover-lift">
+                      <div className="row g-3 align-items-center">
+                        <div className="col-12 col-sm-3">
+                          <div className="position-relative rounded-2 overflow-hidden" style={{ height: '110px' }}>
+                            <img src={g.image} alt={g.name} className="w-100 h-100 object-fit-cover" />
+                            <div className="position-absolute top-0 start-0 m-1 badge badge-active" style={{ fontSize: '0.65rem' }}>
+                              📍 {g.city}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-12 col-sm-6">
+                          <div className="d-flex align-items-center justify-content-between mb-1">
+                            <h6 className="text-white font-weight-bold mb-0">{g.name}</h6>
+                            <small className="text-warning fw-bold">★ {g.rating}</small>
+                          </div>
+                          <p className="text-cyan small mb-1 fw-semibold" style={{ fontSize: '0.8rem' }}>
+                            <FiNavigation size={12} className="me-1" /> Place: {g.place || g.address}
+                          </p>
+                          <small className="text-muted d-block mb-2" style={{ fontSize: '0.75rem' }}>
+                            <FiClock size={11} className="me-1 text-cyan" /> {g.operating_hours} • {g.phone}
+                          </small>
+
+                          {/* Plans Badges */}
+                          {g.plans && (
+                            <div className="d-flex flex-wrap gap-1">
+                              {g.plans.slice(0, 3).map((p, pIdx) => (
+                                <span key={pIdx} className="badge bg-dark border border-primary border-opacity-25 text-white" style={{ fontSize: '0.68rem' }}>
+                                  {p.title}: <strong className="text-cyan">${p.price}</strong>
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="col-12 col-sm-3 d-flex flex-column gap-2">
+                          <button
+                            onClick={() => handleSelectGym(g, 'OVERVIEW')}
+                            className="btn btn-secondary-glass btn-sm w-100 text-nowrap"
+                            style={{ fontSize: '0.8rem' }}
+                          >
+                            <FiInfo className="me-1" size={13} /> Details
+                          </button>
+                          <button
+                            onClick={() => handleSelectGym(g, 'BOOK')}
+                            className="btn btn-primary-gradient btn-sm w-100 text-nowrap"
+                            style={{ fontSize: '0.8rem' }}
+                          >
+                            <FiCalendar className="me-1" size={13} /> Book Slot
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* TAB 1: OVERVIEW & PLACE DETAILS */}
-            {activeTab === 'OVERVIEW' && (
+            {activeTab === 'OVERVIEW' && currentGym && (
               <div className="d-flex flex-column gap-3">
                 <div className="glass-card-static p-3 rounded-3">
                   <h6 className="text-white font-weight-bold mb-2">About {currentGym.name}</h6>
@@ -314,7 +443,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
             )}
 
             {/* TAB 2: PLANS & PRICING */}
-            {activeTab === 'PLANS' && (
+            {activeTab === 'PLANS' && currentGym && (
               <div className="d-flex flex-column gap-3">
                 <p className="text-muted small mb-1">
                   Select a pass or plan for <strong>{currentGym.name}</strong> to proceed with slot booking:
@@ -367,7 +496,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
             )}
 
             {/* TAB 3: COACHES & AMENITIES */}
-            {activeTab === 'TRAINERS' && (
+            {activeTab === 'TRAINERS' && currentGym && (
               <div className="d-flex flex-column gap-3">
                 {/* Certified Coaches */}
                 {currentGym.trainers && currentGym.trainers.length > 0 && (
@@ -424,7 +553,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
             )}
 
             {/* TAB 4: BOOK SLOT NOW FORM */}
-            {activeTab === 'BOOK' && (
+            {activeTab === 'BOOK' && currentGym && (
               <form onSubmit={handleConfirmBooking} className="d-flex flex-column gap-3">
                 {/* Selected Plan Summary Banner */}
                 <div className="glass-card p-3 rounded-3 border border-cyan border-opacity-25 d-flex align-items-center justify-content-between">
