@@ -7,7 +7,7 @@ import { ProgressAnalyticsChart } from '../../components/ProgressAnalyticsChart'
 import { GymDetailsModal } from '../../components/GymDetailsModal';
 import { 
   FiCalendar, FiClock, FiActivity, FiPieChart, FiCheckSquare, 
-  FiArrowRight, FiMapPin, FiNavigation, FiDollarSign, FiStar, FiCheckCircle, FiGrid
+  FiArrowRight, FiMapPin, FiNavigation, FiDollarSign, FiStar, FiCheckCircle, FiGrid, FiPhone, FiLayers
 } from 'react-icons/fi';
 
 export const MemberDashboard = () => {
@@ -95,7 +95,7 @@ export const MemberDashboard = () => {
           </div>
         )}
 
-        {/* Gym Details Preview Cards */}
+        {/* Detailed Gym Center Cards */}
         <div className="row g-3">
           {gyms.slice(0, 3).map((gym) => (
             <div key={gym.id} className="col-12 col-md-4">
@@ -111,36 +111,39 @@ export const MemberDashboard = () => {
                   
                   {/* Gym Name & Place */}
                   <h6 className="text-white font-weight-bold mb-1">{gym.name}</h6>
-                  <p className="text-cyan small mb-2 fw-semibold" style={{ fontSize: '0.82rem' }}>
+                  <p className="text-cyan small mb-1 fw-semibold" style={{ fontSize: '0.82rem' }}>
                     <FiNavigation className="me-1" size={12} />
                     Place: {gym.place || gym.address}
                   </p>
                   
                   <small className="text-muted d-block mb-2 text-truncate">
                     <FiMapPin size={11} className="me-1" />
-                    {gym.address}
+                    {gym.address} {gym.landmark && `• (${gym.landmark})`}
                   </small>
 
                   {/* Hours & Contact */}
-                  <div className="d-flex align-items-center gap-2 text-muted small mb-2 glass-card-static p-2 rounded-2" style={{ fontSize: '0.78rem' }}>
+                  <div className="d-flex flex-wrap align-items-center gap-2 text-muted small mb-2 glass-card-static p-2 rounded-2" style={{ fontSize: '0.75rem' }}>
                     <span className="d-flex align-items-center gap-1 text-truncate">
-                      <FiClock size={12} className="text-cyan" /> {gym.operating_hours}
+                      <FiClock size={11} className="text-cyan" /> {gym.operating_hours}
+                    </span>
+                    <span className="d-flex align-items-center gap-1 text-truncate">
+                      <FiPhone size={11} className="text-cyan" /> {gym.phone}
                     </span>
                   </div>
 
-                  {/* Plans & Pricing Preview */}
+                  {/* Plans & Pricing Badges */}
                   {gym.plans && gym.plans.length > 0 && (
                     <div className="mb-2">
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.75rem' }}>
-                        <FiDollarSign size={12} className="text-success me-1" />
-                        Plans starting from:
+                      <small className="text-white d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>
+                        <FiDollarSign size={11} className="text-success me-1" />
+                        Membership Plans:
                       </small>
                       <div className="d-flex flex-wrap gap-1">
-                        {gym.plans.slice(0, 2).map((p, pIdx) => (
+                        {gym.plans.map((p, pIdx) => (
                           <span 
                             key={pIdx} 
                             className="badge bg-dark border border-primary border-opacity-25 text-white" 
-                            style={{ fontSize: '0.7rem' }}
+                            style={{ fontSize: '0.68rem' }}
                           >
                             {p.title}: <strong className="text-cyan">${p.price}</strong>
                           </span>
@@ -149,32 +152,54 @@ export const MemberDashboard = () => {
                     </div>
                   )}
 
-                  {/* Available Slots Preview */}
+                  {/* Available Time Slots */}
                   {gym.available_slots && (
-                    <div>
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.75rem' }}>Available Slots:</small>
+                    <div className="mb-2">
+                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>Available Time Slots:</small>
                       <div className="d-flex flex-wrap gap-1">
-                        {gym.available_slots.slice(0, 2).map((s, sIdx) => (
-                          <span key={sIdx} className="badge badge-role" style={{ fontSize: '0.68rem' }}>
-                            {s.split(' - ')[0]}
+                        {gym.available_slots.slice(0, 3).map((s, sIdx) => (
+                          <span key={sIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
+                            🕒 {s.split(' - ')[0]}
                           </span>
                         ))}
-                        {gym.available_slots.length > 2 && (
-                          <span className="badge bg-secondary text-white" style={{ fontSize: '0.68rem' }}>
-                            +{gym.available_slots.length - 2} more
+                        {gym.available_slots.length > 3 && (
+                          <span className="badge bg-secondary text-white" style={{ fontSize: '0.65rem' }}>
+                            +{gym.available_slots.length - 3} more
                           </span>
                         )}
                       </div>
                     </div>
                   )}
+
+                  {/* Facilities Badges */}
+                  {gym.facilities && (
+                    <div>
+                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>Facilities:</small>
+                      <div className="d-flex flex-wrap gap-1">
+                        {gym.facilities.slice(0, 3).map((f, fIdx) => (
+                          <span key={fIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
+                            {f}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-3 pt-2 border-top border-secondary border-opacity-25">
+                <div className="d-flex gap-2 mt-3 pt-2 border-top border-secondary border-opacity-25">
                   <button
                     onClick={() => handleOpenGymModal(gym, 'OVERVIEW')}
-                    className="btn btn-secondary-glass btn-sm w-100"
+                    className="btn btn-secondary-glass btn-sm flex-fill"
+                    style={{ fontSize: '0.8rem' }}
                   >
-                    View Details & Plans →
+                    View Details
+                  </button>
+                  <button
+                    onClick={() => handleOpenGymModal(gym, 'BOOK')}
+                    className="btn btn-primary-gradient btn-sm flex-fill"
+                    style={{ fontSize: '0.8rem' }}
+                  >
+                    Book Slot
                   </button>
                 </div>
               </div>
