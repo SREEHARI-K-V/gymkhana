@@ -61,23 +61,14 @@ export const MemberDashboard = () => {
             <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
               <FiMapPin className="text-cyan" /> Gym Centers & Slot Booking
             </h4>
-            <p className="text-muted small mb-0">Explore Gymkhana locations, view place details, membership plans, available slots & reserve training sessions.</p>
+            <p className="text-muted small mb-0">Explore Gymkhana locations, view place details, membership plans & available time slots.</p>
           </div>
-          <div className="d-flex align-items-center gap-2">
-            <button
-              onClick={() => handleOpenGymModal(gyms[0], 'BOOK')}
-              className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 text-nowrap"
-            >
-              <FiCalendar size={16} />
-              <span>Book Gym Slot</span>
-            </button>
-            <button
-              onClick={() => handleOpenGymModal(gyms[0], 'ALL_CENTERS')}
-              className="btn btn-secondary-glass btn-sm text-nowrap"
-            >
-              All Centers ({gyms.length}) →
-            </button>
-          </div>
+          <button
+            onClick={() => handleOpenGymModal(gyms[0], 'ALL_CENTERS')}
+            className="btn btn-secondary-glass btn-sm text-nowrap"
+          >
+            All Centers ({gyms.length}) →
+          </button>
         </div>
 
         {/* Active Gym Passes Banner if available */}
@@ -178,18 +169,12 @@ export const MemberDashboard = () => {
                   )}
                 </div>
 
-                <div className="d-flex gap-2 mt-3 pt-2 border-top border-secondary border-opacity-25">
+                <div className="mt-3 pt-2 border-top border-secondary border-opacity-25">
                   <button
                     onClick={() => handleOpenGymModal(gym, 'OVERVIEW')}
-                    className="btn btn-secondary-glass btn-sm flex-fill"
+                    className="btn btn-secondary-glass btn-sm w-100"
                   >
-                    View Details
-                  </button>
-                  <button
-                    onClick={() => handleOpenGymModal(gym, 'BOOK')}
-                    className="btn btn-primary-gradient btn-sm flex-fill"
-                  >
-                    Book Slot
+                    View Details & Plans →
                   </button>
                 </div>
               </div>
