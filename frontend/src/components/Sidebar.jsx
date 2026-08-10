@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { 
   FiGrid, FiUsers, FiUserCheck, FiCreditCard, FiActivity, 
-  FiPieChart, FiFolder, FiLogOut, FiCalendar, FiTarget 
+  FiPieChart, FiFolder, FiLogOut, FiCalendar, FiTarget, FiMapPin 
 } from 'react-icons/fi';
 
 export const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -29,6 +29,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const memberLinks = [
     { to: '/member', label: 'My Dashboard', icon: FiGrid },
+    { to: '/member/gyms', label: 'Gym Locations & Booking', icon: FiMapPin },
     { to: '/member/tracker', label: "Today's Checklist", icon: FiCalendar },
     { to: '/member/subscription', label: 'My Subscription', icon: FiCreditCard },
     { to: '/member/workout', label: 'Workout Routine', icon: FiActivity },
