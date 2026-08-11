@@ -15,24 +15,10 @@ import {
   FiChevronDown 
 } from 'react-icons/fi';
 
-const DEMO_ACCOUNTS = {
-  MEMBER: [
-    { label: 'Member 1 (John)', email: 'john@gmail.com', password: 'member123' },
-    { label: 'Member 2 (Emily)', email: 'emily@gmail.com', password: 'member123' },
-  ],
-  TRAINER: [
-    { label: 'Trainer 1 (Alex)', email: 'alex.trainer@gymkhana.com', password: 'trainer123' },
-    { label: 'Trainer 2 (Sara)', email: 'sara.trainer@gymkhana.com', password: 'trainer123' },
-  ],
-  ADMIN: [
-    { label: 'Admin (System)', email: 'admin@gymkhana.com', password: 'admin123' },
-  ],
-};
-
 export const LoginPage = () => {
   const [selectedRole, setSelectedRole] = useState('MEMBER');
-  const [email, setEmail] = useState(DEMO_ACCOUNTS.MEMBER[0].email);
-  const [password, setPassword] = useState(DEMO_ACCOUNTS.MEMBER[0].password);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -41,17 +27,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleRoleChange = (e) => {
-    const role = e.target.value;
-    setSelectedRole(role);
-    if (DEMO_ACCOUNTS[role] && DEMO_ACCOUNTS[role].length > 0) {
-      setEmail(DEMO_ACCOUNTS[role][0].email);
-      setPassword(DEMO_ACCOUNTS[role][0].password);
-    }
-  };
-
-  const handleQuickSelect = (acc) => {
-    setEmail(acc.email);
-    setPassword(acc.password);
+    setSelectedRole(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -112,7 +88,7 @@ export const LoginPage = () => {
         }}
       />
 
-      <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '480px', borderRadius: '24px' }}>
+      <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '460px', borderRadius: '24px' }}>
         {/* Header Section */}
         <div className="text-center mb-4">
           <div
@@ -157,26 +133,6 @@ export const LoginPage = () => {
               </span>
             </div>
           </div>
-
-          {/* Quick Demo Account Selector Pills */}
-          {DEMO_ACCOUNTS[selectedRole] && (
-            <div className="d-flex flex-wrap gap-1 mt-1">
-              <span className="text-muted w-100 mb-1" style={{ fontSize: '0.75rem' }}>
-                Demo Accounts for {selectedRole.charAt(0) + selectedRole.slice(1).toLowerCase()}:
-              </span>
-              {DEMO_ACCOUNTS[selectedRole].map((acc) => (
-                <button
-                  key={acc.email}
-                  type="button"
-                  onClick={() => handleQuickSelect(acc)}
-                  className={`btn btn-sm ${email === acc.email ? 'btn-primary-gradient' : 'btn-secondary-glass'} px-2 py-1`}
-                  style={{ fontSize: '0.75rem', borderRadius: '12px' }}
-                >
-                  {acc.label}
-                </button>
-              ))}
-            </div>
-          )}
 
           {/* Email Address */}
           <div>
