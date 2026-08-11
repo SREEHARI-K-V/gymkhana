@@ -78,7 +78,7 @@ export const MemberDashboard = () => {
               <div className="d-flex align-items-center gap-2">
                 <FiCheckCircle className="text-success" size={20} />
                 <div>
-                  <span className="text-white font-weight-bold d-block small">My Subscription & Active Gym Pass</span>
+                  <span className="text-white font-weight-bold d-block small">My Active Gym Pass</span>
                   <small className="text-muted">
                     {activeBookings[0].gym_name} ({activeBookings[0].gym_place}) • {activeBookings[0].booking_date} @ {activeBookings[0].slot_time}
                   </small>

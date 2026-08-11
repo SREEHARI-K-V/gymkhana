@@ -67,98 +67,64 @@ export const GymsBooking = () => {
               <strong className="text-cyan fs-5">{gyms.length} Gyms</strong>
             </div>
             <div className="glass-card-static px-3 py-2 rounded-3 text-center">
-              <span className="text-muted small d-block">My Subscription</span>
-              <strong className="text-cyan fs-5">ACTIVE</strong>
+              <span className="text-muted small d-block">My Active Passes</span>
+              <strong className="text-warning fs-5">{bookings.length} Passes</strong>
             </div>
           </div>
         </div>
       </div>
 
-      {/* My Subscription & Active Passes Bar */}
-      <div className="glass-card-static p-4 border border-cyan border-opacity-25">
-        <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-          <h5 className="text-white font-weight-bold mb-0 d-flex align-items-center gap-2">
-            <FiCreditCard className="text-cyan" /> My Subscription
+      {/* Active Confirmed Gym Passes Bar */}
+      {bookings.length > 0 && (
+        <div className="glass-card-static p-4 border border-success border-opacity-25">
+          <h5 className="text-white font-weight-bold mb-3 d-flex align-items-center gap-2">
+            <FiCheckCircle className="text-success" /> My Confirmed Gym Passes & Bookings ({bookings.length})
           </h5>
-          <span className="badge badge-status badge-active">
-            <FiCheckCircle className="me-1" /> {subscription.plan_title || 'VIP All-Access Membership'} • ACTIVE
-          </span>
-        </div>
-
-        <div className="row g-3">
-          {/* Active Subscription Overview Card */}
-          <div className="col-12 col-md-6 col-lg-4">
-            <div className="glass-card p-3 rounded-3 h-100 border border-primary border-opacity-30 d-flex flex-column justify-content-between">
-              <div>
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <span className="badge bg-primary bg-opacity-25 text-cyan">CURRENT PLAN</span>
-                  <span className="text-success fw-bold small">${subscription.payment_amount || 49}/mo</span>
-                </div>
-                <h6 className="text-white font-weight-bold mb-1">{subscription.plan_title || 'VIP All-Access Membership'}</h6>
-                <small className="text-muted d-block mb-2">
-                  Valid until: <strong className="text-white">{subscription.end_date || 'Dec 31, 2026'}</strong>
-                </small>
-                <div className="p-2 glass-card-static rounded-2 mb-2 text-muted small">
-                  <div className="d-flex justify-content-between mb-1">
-                    <span>Status:</span>
-                    <span className="text-success fw-bold">{subscription.status || 'ACTIVE'}</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Days Remaining:</span>
-                    <span className="text-cyan fw-bold">{subscription.days_remaining || 140} Days</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-muted extra-small text-center pt-2 border-top border-secondary border-opacity-25">
-                Full gym center entry & priority slot reservation privileges
-              </div>
-            </div>
-          </div>
-
-          {/* Confirmed Passes under Subscription */}
-          {bookings.map((b) => (
-            <div key={b.id} className="col-12 col-md-6 col-lg-4">
-              <div className="glass-card p-3 rounded-3 d-flex flex-column justify-content-between h-100 border border-success border-opacity-25">
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-2">
-                    <span className="badge badge-status badge-active">{b.status}</span>
-                    <span className="badge badge-role font-monospace">{b.pass_code}</span>
-                  </div>
-                  <h6 className="text-white font-weight-bold mb-1">{b.gym_name}</h6>
-                  <small className="text-muted d-block mb-2">
-                    <FiMapPin size={12} className="me-1 text-cyan" />
-                    {b.gym_place || b.gym_address}
-                  </small>
-                  <div className="p-2 glass-card-static rounded-2 mb-2">
-                    <div className="d-flex align-items-center justify-content-between mb-1">
-                      <small className="text-cyan fw-bold">
-                        <FiCalendar size={12} className="me-1" />
-                        {b.booking_date} | {b.slot_time}
-                      </small>
-                      {b.plan_title && (
-                        <span className="badge bg-primary bg-opacity-25 text-cyan" style={{ fontSize: '0.7rem' }}>
-                          {b.plan_title} (${b.plan_price})
-                        </span>
-                      )}
+          <div className="row g-3">
+            {bookings.map((b) => (
+              <div key={b.id} className="col-12 col-md-6 col-lg-4">
+                <div className="glass-card p-3 rounded-3 d-flex flex-column justify-content-between h-100 border border-success border-opacity-25">
+                  <div>
+                    <div className="d-flex align-items-center justify-content-between mb-2">
+                      <span className="badge badge-status badge-active">{b.status}</span>
+                      <span className="badge badge-role font-monospace">{b.pass_code}</span>
                     </div>
-                    <small className="text-white d-block">
-                      <FiActivity size={12} className="me-1 text-warning" />
-                      Access: {b.workout_type}
+                    <h6 className="text-white font-weight-bold mb-1">{b.gym_name}</h6>
+                    <small className="text-muted d-block mb-2">
+                      <FiMapPin size={12} className="me-1 text-cyan" />
+                      {b.gym_place || b.gym_address}
                     </small>
+                    <div className="p-2 glass-card-static rounded-2 mb-2">
+                      <div className="d-flex align-items-center justify-content-between mb-1">
+                        <small className="text-cyan fw-bold">
+                          <FiCalendar size={12} className="me-1" />
+                          {b.booking_date} | {b.slot_time}
+                        </small>
+                        {b.plan_title && (
+                          <span className="badge bg-primary bg-opacity-25 text-cyan" style={{ fontSize: '0.7rem' }}>
+                            {b.plan_title} (${b.plan_price})
+                          </span>
+                        )}
+                      </div>
+                      <small className="text-white d-block">
+                        <FiActivity size={12} className="me-1 text-warning" />
+                        Access: {b.workout_type}
+                      </small>
+                    </div>
                   </div>
+                  <button 
+                    onClick={() => setViewPassBooking(b)}
+                    className="btn btn-secondary-glass btn-sm w-100 mt-2 d-flex align-items-center justify-content-center gap-2"
+                  >
+                    <FiGrid size={14} />
+                    <span>View Digital Pass</span>
+                  </button>
                 </div>
-                <button 
-                  onClick={() => setViewPassBooking(b)}
-                  className="btn btn-secondary-glass btn-sm w-100 mt-2 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FiGrid size={14} />
-                  <span>View Digital Pass</span>
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Search, Filter & Layout Switcher Bar */}
       <div className="glass-card p-4">
