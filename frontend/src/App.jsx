@@ -29,6 +29,7 @@ import { MemberProgressView } from './pages/trainer/MemberProgressView';
 
 // Member Pages
 import { MemberDashboard } from './pages/member/MemberDashboard';
+import { GymsBooking } from './pages/member/GymsBooking';
 import { DailyTracker } from './pages/member/DailyTracker';
 import { MySubscription } from './pages/member/MySubscription';
 import { WorkoutPlanView } from './pages/member/WorkoutPlanView';
@@ -123,6 +124,7 @@ export default function App() {
               }
             >
               <Route index element={<MemberDashboard />} />
+              <Route path="gyms" element={<GymsBooking />} />
               <Route path="tracker" element={<DailyTracker />} />
               <Route path="subscription" element={<MySubscription />} />
               <Route path="workout" element={<WorkoutPlanView />} />
