@@ -151,6 +151,12 @@ h1, h2, h3, h4, h5, h6, .brand-title {
   transition: all 0.25s ease !important;
 }
 
+select.glass-input option {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  padding: 10px;
+}
+
 .glass-input.ps-5,
 .glass-input-with-icon {
   padding-left: 3rem !important; /* Ensured room for 18px icon + spacing */

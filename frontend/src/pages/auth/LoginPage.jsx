@@ -2,17 +2,57 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotification } from '../../context/NotificationContext';
-import { FiActivity, FiLock, FiMail, FiArrowRight, FiEye, FiEyeOff } from 'react-icons/fi';
+import { 
+  FiActivity, 
+  FiLock, 
+  FiMail, 
+  FiArrowRight, 
+  FiEye, 
+  FiEyeOff, 
+  FiUser, 
+  FiAward, 
+  FiShield, 
+  FiChevronDown 
+} from 'react-icons/fi';
+
+const DEMO_ACCOUNTS = {
+  MEMBER: [
+    { label: 'Member 1 (John)', email: 'john@gmail.com', password: 'member123' },
+    { label: 'Member 2 (Emily)', email: 'emily@gmail.com', password: 'member123' },
+  ],
+  TRAINER: [
+    { label: 'Trainer 1 (Alex)', email: 'alex.trainer@gymkhana.com', password: 'trainer123' },
+    { label: 'Trainer 2 (Sara)', email: 'sara.trainer@gymkhana.com', password: 'trainer123' },
+  ],
+  ADMIN: [
+    { label: 'Admin (System)', email: 'admin@gymkhana.com', password: 'admin123' },
+  ],
+};
 
 export const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState('MEMBER');
+  const [email, setEmail] = useState(DEMO_ACCOUNTS.MEMBER[0].email);
+  const [password, setPassword] = useState(DEMO_ACCOUNTS.MEMBER[0].password);
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const { login } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
+
+  const handleRoleChange = (e) => {
+    const role = e.target.value;
+    setSelectedRole(role);
+    if (DEMO_ACCOUNTS[role] && DEMO_ACCOUNTS[role].length > 0) {
+      setEmail(DEMO_ACCOUNTS[role][0].email);
+      setPassword(DEMO_ACCOUNTS[role][0].password);
+    }
+  };
+
+  const handleQuickSelect = (acc) => {
+    setEmail(acc.email);
+    setPassword(acc.password);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +61,7 @@ export const LoginPage = () => {
       const res = await login(email, password);
       addToast(`Welcome back, ${res.user.full_name}!`, 'success');
       
+      // Redirect based on actual user role
       if (res.role === 'ADMIN') navigate('/admin');
       else if (res.role === 'TRAINER') navigate('/trainer');
       else navigate('/member');
@@ -28,6 +69,18 @@ export const LoginPage = () => {
       addToast(err.response?.data?.message || 'Login failed. Please check your credentials.', 'danger');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const renderRoleIcon = (role) => {
+    switch (role) {
+      case 'ADMIN':
+        return <FiShield size={18} style={{ color: '#F59E0B' }} />;
+      case 'TRAINER':
+        return <FiAward size={18} style={{ color: '#06B6D4' }} />;
+      case 'MEMBER':
+      default:
+        return <FiUser size={18} style={{ color: '#818CF8' }} />;
     }
   };
 
@@ -59,7 +112,7 @@ export const LoginPage = () => {
         }}
       />
 
-      <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '460px', borderRadius: '24px' }}>
+      <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '480px', borderRadius: '24px' }}>
         {/* Header Section */}
         <div className="text-center mb-4">
           <div
@@ -79,6 +132,53 @@ export const LoginPage = () => {
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+          {/* Role Dropdown Menu */}
+          <div>
+            <label htmlFor="login-role" className="form-label-custom">
+              Log in as (Role)
+            </label>
+            <div className="input-icon-wrapper">
+              <span className="input-icon-left">
+                {renderRoleIcon(selectedRole)}
+              </span>
+              <select
+                id="login-role"
+                className="form-select glass-input glass-input-with-icon"
+                value={selectedRole}
+                onChange={handleRoleChange}
+                style={{ cursor: 'pointer', appearance: 'none', WebkitAppearance: 'none' }}
+              >
+                <option value="MEMBER">Member (Client)</option>
+                <option value="TRAINER">Trainer (Coach)</option>
+                <option value="ADMIN">Admin (System Administrator)</option>
+              </select>
+              <span className="input-icon-right-btn" style={{ pointerEvents: 'none' }}>
+                <FiChevronDown size={18} />
+              </span>
+            </div>
+          </div>
+
+          {/* Quick Demo Account Selector Pills */}
+          {DEMO_ACCOUNTS[selectedRole] && (
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              <span className="text-muted w-100 mb-1" style={{ fontSize: '0.75rem' }}>
+                Demo Accounts for {selectedRole.charAt(0) + selectedRole.slice(1).toLowerCase()}:
+              </span>
+              {DEMO_ACCOUNTS[selectedRole].map((acc) => (
+                <button
+                  key={acc.email}
+                  type="button"
+                  onClick={() => handleQuickSelect(acc)}
+                  className={`btn btn-sm ${email === acc.email ? 'btn-primary-gradient' : 'btn-secondary-glass'} px-2 py-1`}
+                  style={{ fontSize: '0.75rem', borderRadius: '12px' }}
+                >
+                  {acc.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Email Address */}
           <div>
             <label htmlFor="login-email" className="form-label-custom">
               Email Address
@@ -100,6 +200,7 @@ export const LoginPage = () => {
             </div>
           </div>
 
+          {/* Password */}
           <div>
             <div className="d-flex align-items-center justify-content-between mb-1">
               <label htmlFor="login-password" className="form-label-custom mb-0">
@@ -132,6 +233,7 @@ export const LoginPage = () => {
             </div>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={submitting}
@@ -145,14 +247,12 @@ export const LoginPage = () => {
               </>
             ) : (
               <>
-                <span>Sign In</span>
+                <span>Sign In as {selectedRole.charAt(0) + selectedRole.slice(1).toLowerCase()}</span>
                 <FiArrowRight size={18} />
               </>
             )}
           </button>
         </form>
-
-
 
         {/* Register CTA Footer */}
         <div className="text-center mt-4">
