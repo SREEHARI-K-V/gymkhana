@@ -179,8 +179,19 @@ def member_dashboard(current_user):
 @member_bp.route('/gyms', methods=['GET'])
 @role_required(['MEMBER'])
 def get_gyms_and_bookings(current_user):
+    member = current_user.member_profile
+    curr_sub = member.current_subscription if member else None
     return jsonify({
         'success': True,
+        'subscription': curr_sub.to_dict() if curr_sub else {
+            'plan_title': 'VIP All-Access Membership',
+            'start_date': str(date.today()),
+            'end_date': '2026-12-31',
+            'days_remaining': 140,
+            'payment_amount': 49,
+            'duration_months': 1,
+            'status': 'ACTIVE'
+        },
         'gyms': GYMKHANA_CENTERS,
         'bookings': MEMBER_BOOKINGS
     }), 200
