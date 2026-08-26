@@ -114,7 +114,7 @@ export const ProgressTracker = () => {
         title="Log Today's Body Metrics"
       >
         <form onSubmit={handleSubmit} className="row g-3">
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Record Date</label>
             <input
               type="date"
@@ -124,7 +124,7 @@ export const ProgressTracker = () => {
               required
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Weight (kg)</label>
             <input
               type="number"
@@ -135,7 +135,7 @@ export const ProgressTracker = () => {
               required
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Body Fat %</label>
             <input
               type="number"
@@ -145,7 +145,7 @@ export const ProgressTracker = () => {
               onChange={(e) => setFormData({ ...formData, body_fat_pct: parseFloat(e.target.value) })}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Waist (inches)</label>
             <input
               type="number"

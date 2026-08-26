@@ -127,10 +127,10 @@ export const GymsBooking = () => {
       )}
 
       {/* Search, Filter & Layout Switcher Bar */}
-      <div className="glass-card p-4">
+      <div className="glass-card p-3 p-sm-4">
         <div className="row g-3 align-items-center">
           {/* Search Box */}
-          <div className="col-12 col-md-5">
+          <div className="col-12 col-lg-4">
             <div className="position-relative">
               <FiSearch className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" size={18} />
               <input
@@ -144,6 +144,7 @@ export const GymsBooking = () => {
                 <button 
                   onClick={() => setSearchQuery('')} 
                   className="btn btn-link text-muted position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-decoration-none"
+                  aria-label="Clear search"
                 >
                   <FiX size={16} />
                 </button>
@@ -152,16 +153,16 @@ export const GymsBooking = () => {
           </div>
 
           {/* Place Filter Pills */}
-          <div className="col-12 col-md-5">
-            <div className="d-flex align-items-center gap-2 overflow-x-auto pb-1">
-              <span className="text-muted small fw-semibold me-1 text-nowrap">
+          <div className="col-12 col-md-8 col-lg-6">
+            <div className="d-flex align-items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+              <span className="text-muted small fw-semibold me-1 text-nowrap flex-shrink-0">
                 <FiFilter className="me-1 text-cyan" /> Location:
               </span>
               {citiesList.map((city) => (
                 <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
-                  className={`btn btn-sm text-nowrap rounded-pill ${
+                  className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                     selectedCity === city 
                       ? 'btn-cyan-gradient font-weight-bold' 
                       : 'btn-secondary-glass text-muted'
@@ -175,12 +176,12 @@ export const GymsBooking = () => {
           </div>
 
           {/* View Switcher (Grid vs List) */}
-          <div className="col-12 col-md-2 d-flex justify-content-md-end">
-            <div className="btn-group p-1 glass-card-static rounded-3" role="group">
+          <div className="col-12 col-md-4 col-lg-2 d-flex justify-content-start justify-content-md-end">
+            <div className="btn-group p-1 glass-card-static rounded-3 w-100 w-md-auto" role="group">
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`btn btn-sm d-flex align-items-center gap-1 ${viewMode === 'grid' ? 'btn-cyan-gradient fw-bold' : 'text-muted btn-link text-decoration-none'}`}
+                className={`btn btn-sm d-flex align-items-center justify-content-center gap-1 flex-fill ${viewMode === 'grid' ? 'btn-cyan-gradient fw-bold' : 'text-muted btn-link text-decoration-none'}`}
                 title="Grid Cards View"
               >
                 <FiGrid size={16} />
@@ -189,7 +190,7 @@ export const GymsBooking = () => {
               <button
                 type="button"
                 onClick={() => setViewMode('list')}
-                className={`btn btn-sm d-flex align-items-center gap-1 ${viewMode === 'list' ? 'btn-cyan-gradient fw-bold' : 'text-muted btn-link text-decoration-none'}`}
+                className={`btn btn-sm d-flex align-items-center justify-content-center gap-1 flex-fill ${viewMode === 'list' ? 'btn-cyan-gradient fw-bold' : 'text-muted btn-link text-decoration-none'}`}
                 title="Structured List View"
               >
                 <FiList size={16} />
@@ -202,7 +203,7 @@ export const GymsBooking = () => {
 
       {/* Gym Centers List Container */}
       <div>
-        <div className="d-flex align-items-center justify-content-between mb-3">
+        <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
           <h4 className="text-white font-weight-bold mb-0 d-flex align-items-center gap-2">
             <FiMapPin className="text-cyan" /> Gym Centers & Details ({filteredGyms.length})
           </h4>
@@ -225,9 +226,9 @@ export const GymsBooking = () => {
           </div>
         ) : viewMode === 'grid' ? (
           /* GRID CARDS VIEW */
-          <div className="row g-4">
+          <div className="row g-3 g-md-4">
             {filteredGyms.map((gym) => (
-              <div key={gym.id} className="col-12 col-md-6">
+              <div key={gym.id} className="col-12 col-md-6 col-xl-4">
                 <div className="glass-card overflow-hidden h-100 d-flex flex-column justify-content-between border border-secondary border-opacity-25 hover-lift">
                   <div>
                     {/* Header Image with Badges */}

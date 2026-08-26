@@ -101,13 +101,13 @@ export const ManageMembers = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="d-flex align-items-center gap-2">
-          <FiFilter className="text-muted" size={18} />
+        <div className="d-flex align-items-center gap-2 w-100 w-md-auto">
+          <FiFilter className="text-muted flex-shrink-0" size={18} />
           <select
-            className="form-select glass-input"
+            className="form-select glass-input flex-grow-1"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            style={{ width: '180px' }}
+            style={{ minWidth: '160px' }}
           >
             <option value="" style={{ background: '#0F172A' }}>All Statuses</option>
             <option value="ACTIVE" style={{ background: '#0F172A' }}>Active</option>

@@ -18,23 +18,23 @@ export const TrainerDashboard = () => {
   return (
     <div className="d-flex flex-column gap-4">
       {/* Header */}
-      <div className="glass-card p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div className="glass-card p-3 p-sm-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
         <div>
           <span className="badge badge-role mb-2">{trainer.specialization}</span>
           <h3 className="text-white font-weight-bold mb-1">Coach {trainer.full_name}'s Portal</h3>
           <p className="text-muted mb-0">{trainer.bio || 'Managing assigned member fitness & diet goals.'}</p>
         </div>
-        <div className="d-flex gap-2">
+        <div className="d-flex flex-wrap gap-2">
           <button
             onClick={() => navigate('/trainer/workout-builder')}
-            className="btn btn-primary-gradient d-flex align-items-center gap-2"
+            className="btn btn-primary-gradient d-flex align-items-center gap-2 flex-fill flex-sm-grow-0"
           >
             <FiActivity size={18} />
             <span>Create Workout Plan</span>
           </button>
           <button
             onClick={() => navigate('/trainer/diet-builder')}
-            className="btn btn-cyan-gradient d-flex align-items-center gap-2"
+            className="btn btn-cyan-gradient d-flex align-items-center gap-2 flex-fill flex-sm-grow-0"
           >
             <FiPieChart size={18} />
             <span>Create Diet Plan</span>
@@ -44,7 +44,7 @@ export const TrainerDashboard = () => {
 
       {/* KPI Row */}
       <div className="row g-3">
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-6 col-lg-4">
           <StatCard
             title="Assigned Clients"
             value={data?.assigned_members_count || 0}
@@ -53,7 +53,7 @@ export const TrainerDashboard = () => {
             subtitle="Active members under supervision"
           />
         </div>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-6 col-lg-4">
           <StatCard
             title="Master Workout Templates"
             value={data?.workout_templates_count || 0}
@@ -62,7 +62,7 @@ export const TrainerDashboard = () => {
             subtitle="Available to duplicate & assign"
           />
         </div>
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-12 col-lg-4">
           <StatCard
             title="Master Diet Templates"
             value={data?.diet_templates_count || 0}

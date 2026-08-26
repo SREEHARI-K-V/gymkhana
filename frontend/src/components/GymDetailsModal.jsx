@@ -160,8 +160,8 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
         ) : (
           <>
             {/* Modal Header */}
-            <div className="d-flex align-items-start justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-3">
-              <div>
+            <div className="d-flex align-items-start justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-3 flex-wrap gap-2">
+              <div className="flex-grow-1" style={{ minWidth: '220px' }}>
                 <div className="d-flex align-items-center flex-wrap gap-2 mb-1">
                   <span className="badge badge-active">📍 {currentGym?.city || 'All Network'}</span>
                   {currentGym && (
@@ -177,7 +177,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
                   )}
                 </div>
 
-                <h4 className="text-white font-weight-bold mb-1">
+                <h4 className="text-white font-weight-bold mb-1" style={{ fontSize: 'clamp(1.1rem, 3.5vw, 1.4rem)' }}>
                   {activeTab === 'ALL_CENTERS' ? 'All Gymkhana Training Centers & Details' : currentGym?.name}
                 </h4>
                 <p className="text-cyan small mb-0 fw-semibold">
@@ -186,7 +186,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
                 </p>
               </div>
 
-              <div className="d-flex align-items-center gap-2">
+              <div className="d-flex align-items-center gap-2 ms-auto">
                 {/* Gym Selector Dropdown if multiple gyms */}
                 {allGyms.length > 1 && activeTab !== 'ALL_CENTERS' && (
                   <select 
@@ -196,7 +196,7 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
                       const found = allGyms.find(g => g.id === Number(e.target.value));
                       if (found) handleSelectGym(found, activeTab);
                     }}
-                    style={{ maxWidth: '180px', fontSize: '0.8rem' }}
+                    style={{ maxWidth: '160px', fontSize: '0.8rem' }}
                   >
                     {allGyms.map(g => (
                       <option key={g.id} value={g.id} style={{ background: '#0F172A', color: '#FFF' }}>
@@ -208,53 +208,53 @@ export const GymDetailsModal = ({ gym, allGyms = [], onClose, onBookingSuccess, 
 
                 <button 
                   onClick={onClose} 
-                  className="btn-close btn-close-white ms-2" 
+                  className="btn-close btn-close-white ms-1" 
                   aria-label="Close"
                 />
               </div>
             </div>
 
             {/* Modal Tabs Navigation */}
-            <div className="d-flex align-items-center gap-2 mb-4 border-bottom border-secondary border-opacity-25 pb-2 overflow-x-auto">
+            <div className="d-flex align-items-center gap-2 mb-4 border-bottom border-secondary border-opacity-25 pb-2 overflow-x-auto hide-scrollbar">
               <button
                 onClick={() => setActiveTab('ALL_CENTERS')}
-                className={`btn btn-sm text-nowrap rounded-pill ${
+                className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                   activeTab === 'ALL_CENTERS' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiGrid className="me-1" /> All Centers Directory ({allGyms.length})
+                <FiGrid className="me-1" /> All Centers ({allGyms.length})
               </button>
               <button
                 onClick={() => setActiveTab('OVERVIEW')}
-                className={`btn btn-sm text-nowrap rounded-pill ${
+                className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                   activeTab === 'OVERVIEW' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiInfo className="me-1" /> Overview & Place
+                <FiInfo className="me-1" /> Overview
               </button>
               <button
                 onClick={() => setActiveTab('PLANS')}
-                className={`btn btn-sm text-nowrap rounded-pill ${
+                className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                   activeTab === 'PLANS' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiDollarSign className="me-1" /> Plans & Pricing ({currentGym?.plans?.length || 0})
+                <FiDollarSign className="me-1" /> Plans ({currentGym?.plans?.length || 0})
               </button>
               <button
                 onClick={() => setActiveTab('TRAINERS')}
-                className={`btn btn-sm text-nowrap rounded-pill ${
+                className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                   activeTab === 'TRAINERS' ? 'btn-cyan-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiUser className="me-1" /> Coaches & Amenities
+                <FiUser className="me-1" /> Coaches
               </button>
               <button
                 onClick={() => setActiveTab('BOOK')}
-                className={`btn btn-sm text-nowrap rounded-pill ${
+                className={`btn btn-sm text-nowrap rounded-pill flex-shrink-0 ${
                   activeTab === 'BOOK' ? 'btn-primary-gradient font-weight-bold' : 'btn-secondary-glass text-muted'
                 }`}
               >
-                <FiCalendar className="me-1" /> Book Slot Now
+                <FiCalendar className="me-1" /> Book Slot
               </button>
             </div>
 

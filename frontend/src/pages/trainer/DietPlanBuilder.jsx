@@ -191,7 +191,7 @@ export const DietPlanBuilder = () => {
           )}
 
           {/* Macro Targets */}
-          <div className="col-md-3">
+          <div className="col-6 col-md-3">
             <label className="form-label text-muted small fw-semibold">Daily Calories (kcal)</label>
             <input
               type="number"
@@ -200,7 +200,7 @@ export const DietPlanBuilder = () => {
               onChange={(e) => setDailyCalorieTarget(parseInt(e.target.value))}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-6 col-md-3">
             <label className="form-label text-muted small fw-semibold">Protein Target (g)</label>
             <input
               type="number"
@@ -209,7 +209,7 @@ export const DietPlanBuilder = () => {
               onChange={(e) => setProteinTarget(parseInt(e.target.value))}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-6 col-md-3">
             <label className="form-label text-muted small fw-semibold">Carbs Target (g)</label>
             <input
               type="number"
@@ -218,7 +218,7 @@ export const DietPlanBuilder = () => {
               onChange={(e) => setCarbsTarget(parseInt(e.target.value))}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-6 col-md-3">
             <label className="form-label text-muted small fw-semibold">Fat Target (g)</label>
             <input
               type="number"
@@ -244,8 +244,8 @@ export const DietPlanBuilder = () => {
 
         <div className="d-flex flex-column gap-3">
           {meals.map((m, idx) => (
-            <div key={idx} className="p-3 glass-card rounded-3 row g-2 align-items-center">
-              <div className="col-md-2">
+            <div key={idx} className="p-3 glass-card rounded-3 row g-2 align-items-end position-relative">
+              <div className="col-12 col-sm-6 col-lg-2">
                 <label className="text-muted small">Day</label>
                 <select
                   className="form-select glass-input"
@@ -262,7 +262,7 @@ export const DietPlanBuilder = () => {
                 </select>
               </div>
 
-              <div className="col-md-2">
+              <div className="col-12 col-sm-6 col-lg-2">
                 <label className="text-muted small">Meal Time</label>
                 <input
                   type="text"
@@ -273,7 +273,7 @@ export const DietPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-3">
+              <div className="col-12 col-sm-12 col-lg-3">
                 <label className="text-muted small">Meal Items / Food Description</label>
                 <input
                   type="text"
@@ -285,7 +285,7 @@ export const DietPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1">
+              <div className="col-4 col-sm-3 col-lg-1">
                 <label className="text-muted small">Calories</label>
                 <input
                   type="number"
@@ -295,7 +295,7 @@ export const DietPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1">
+              <div className="col-3 col-sm-3 col-lg-1">
                 <label className="text-muted small">Prot (g)</label>
                 <input
                   type="number"
@@ -305,7 +305,7 @@ export const DietPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1">
+              <div className="col-3 col-sm-3 col-lg-1">
                 <label className="text-muted small">Carb (g)</label>
                 <input
                   type="number"
@@ -315,10 +315,12 @@ export const DietPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1 text-end pt-3">
+              <div className="col-2 col-sm-3 col-lg-2 text-end">
                 <button
                   type="button"
-                  className="btn btn-link text-danger p-0"
+                  className="btn btn-link text-danger p-2 hover-white"
+                  title="Remove meal"
+                  aria-label="Remove meal"
                   onClick={() => handleRemoveMealRow(idx)}
                 >
                   <FiTrash2 size={18} />

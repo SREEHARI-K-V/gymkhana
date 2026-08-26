@@ -35,11 +35,11 @@ export const WorkoutPlanView = () => {
           </div>
 
           {/* Days Accordion / Cards */}
-          <div className="row g-4">
+          <div className="row g-3 g-md-4">
             {days.map((day) => {
               const dayExercises = (activePlan.exercises || []).filter((ex) => ex.day_of_week === day);
               return (
-                <div key={day} className="col-12 col-md-6 col-lg-4">
+                <div key={day} className="col-12 col-sm-6 col-lg-4">
                   <div className="glass-card-static p-4 h-100">
                     <div className="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2">
                       <h5 className="text-white font-weight-bold mb-0">{day}</h5>

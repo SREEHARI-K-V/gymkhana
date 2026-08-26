@@ -20,14 +20,14 @@ export const AssignedMembers = () => {
       {loading ? (
         <SkeletonLoader count={3} height="100px" />
       ) : (
-        <div className="row g-4">
+        <div className="row g-3 g-md-4">
           {members.length === 0 ? (
             <div className="col-12 glass-card-static p-4 text-center text-muted">
               You currently have no members assigned. Ask Admin to assign members to your roster.
             </div>
           ) : (
             members.map((m) => (
-              <div key={m.id} className="col-12 col-md-6 col-lg-4">
+              <div key={m.id} className="col-12 col-sm-6 col-lg-4">
                 <div className="glass-card p-4 d-flex flex-column justify-content-between h-100">
                   <div>
                     <div className="d-flex align-items-center justify-content-between mb-3">

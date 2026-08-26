@@ -62,44 +62,46 @@ export const ProgressAnalyticsChart = ({ labels = [], weightData = [], bmiData =
         position: 'top',
         labels: {
           color: '#94A3B8',
-          font: { family: 'Plus Jakarta Sans', size: 12 },
+          boxWidth: 12,
+          padding: 10,
+          font: { family: 'Plus Jakarta Sans', size: 11 },
         },
       },
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        backgroundColor: 'rgba(15, 23, 42, 0.95)',
         titleColor: '#FFF',
         bodyColor: '#CBD5E1',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: 'rgba(255, 255, 255, 0.15)',
         borderWidth: 1,
-        padding: 12,
+        padding: 10,
       },
     },
     scales: {
       x: {
         grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94A3B8' },
+        ticks: { color: '#94A3B8', font: { size: 10 }, maxRotation: 45 },
       },
       y: {
         type: 'linear',
         display: true,
         position: 'left',
-        title: { display: true, text: 'Weight (kg)', color: '#4F46E5' },
+        title: { display: true, text: 'Weight (kg)', color: '#4F46E5', font: { size: 11 } },
         grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94A3B8' },
+        ticks: { color: '#94A3B8', font: { size: 10 } },
       },
       y1: {
         type: 'linear',
         display: true,
         position: 'right',
-        title: { display: true, text: 'BMI', color: '#06B6D4' },
+        title: { display: true, text: 'BMI', color: '#06B6D4', font: { size: 11 } },
         grid: { drawOnChartArea: false },
-        ticks: { color: '#94A3B8' },
+        ticks: { color: '#94A3B8', font: { size: 10 } },
       },
     },
   };
 
   return (
-    <div style={{ height: '320px', width: '100%' }}>
+    <div style={{ height: 'clamp(240px, 45vw, 320px)', width: '100%', position: 'relative' }}>
       <Line data={data} options={options} />
     </div>
   );

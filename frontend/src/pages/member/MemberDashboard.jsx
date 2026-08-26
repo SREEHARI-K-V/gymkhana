@@ -39,7 +39,7 @@ export const MemberDashboard = () => {
   return (
     <div className="d-flex flex-column gap-4">
       {/* Header Banner */}
-      <div className="glass-card p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 position-relative overflow-hidden">
+      <div className="glass-card p-3 p-sm-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 position-relative overflow-hidden">
         <div>
           <span className="badge badge-active mb-2">Member Portal</span>
           <h3 className="text-white font-weight-bold mb-1">Welcome back, {member.full_name}! 👋</h3>
@@ -47,7 +47,7 @@ export const MemberDashboard = () => {
         </div>
         <button
           onClick={() => navigate('/member/tracker')}
-          className="btn btn-primary-gradient d-flex align-items-center gap-2"
+          className="btn btn-primary-gradient d-flex align-items-center justify-content-center gap-2 flex-shrink-0"
         >
           <FiCheckSquare size={18} />
           <span>Open Today's Checklist</span>
@@ -55,7 +55,7 @@ export const MemberDashboard = () => {
       </div>
 
       {/* Gym Centers & Slot Booking Highlight - Located First */}
-      <div className="glass-card-static p-4 border border-primary border-opacity-25">
+      <div className="glass-card-static p-3 p-sm-4 border border-primary border-opacity-25">
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div>
             <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
@@ -65,7 +65,7 @@ export const MemberDashboard = () => {
           </div>
           <button
             onClick={() => handleOpenGymModal(gyms[0], 'ALL_CENTERS')}
-            className="btn btn-secondary-glass btn-sm text-nowrap"
+            className="btn btn-secondary-glass btn-sm text-nowrap align-self-start align-self-md-center"
           >
             All Centers ({gyms.length}) →
           </button>
@@ -76,7 +76,7 @@ export const MemberDashboard = () => {
           <div className="glass-card p-3 rounded-3 mb-4 border border-success border-opacity-50 bg-success bg-opacity-10">
             <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
               <div className="d-flex align-items-center gap-2">
-                <FiCheckCircle className="text-success" size={20} />
+                <FiCheckCircle className="text-success flex-shrink-0" size={20} />
                 <div>
                   <span className="text-white font-weight-bold d-block small">My Active Gym Pass</span>
                   <small className="text-muted">
@@ -98,7 +98,7 @@ export const MemberDashboard = () => {
         {/* Detailed Gym Center Cards */}
         <div className="row g-3">
           {gyms.slice(0, 3).map((gym) => (
-            <div key={gym.id} className="col-12 col-md-4">
+            <div key={gym.id} className="col-12 col-md-6 col-lg-4">
               <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between border border-secondary border-opacity-25 hover-lift">
                 <div>
                   {/* Gym City & Rating Header */}
@@ -210,7 +210,7 @@ export const MemberDashboard = () => {
 
       {/* Subscription Status Card Module */}
       <div className="row g-3">
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-6 col-lg-4">
           <div className="glass-card-static p-4 h-100 d-flex flex-column justify-content-between">
             <div>
               <span className="text-muted text-uppercase fw-semibold" style={{ fontSize: '0.78rem' }}>
@@ -244,7 +244,7 @@ export const MemberDashboard = () => {
           </div>
         </div>
 
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-6 col-lg-4">
           <StatCard
             title="Today's Workout Target"
             value={`${todaysExercises.length} Exercises`}
@@ -254,7 +254,7 @@ export const MemberDashboard = () => {
           />
         </div>
 
-        <div className="col-12 col-md-4">
+        <div className="col-12 col-sm-12 col-lg-4">
           <StatCard
             title="Today's Meal Routine"
             value={`${todaysMeals.length} Meals`}

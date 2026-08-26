@@ -220,7 +220,7 @@ export const RegisterPage = () => {
             </div>
           </div>
 
-          <div className="col-md-6">
+          <div className="col-6 col-md-6">
             <label className="form-label-custom">Height (cm)</label>
             <input
               type="number"
@@ -231,7 +231,7 @@ export const RegisterPage = () => {
             />
           </div>
 
-          <div className="col-md-6">
+          <div className="col-6 col-md-6">
             <label className="form-label-custom">Weight (kg)</label>
             <input
               type="number"

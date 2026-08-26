@@ -214,8 +214,8 @@ export const WorkoutPlanBuilder = () => {
 
         <div className="d-flex flex-column gap-3">
           {exercises.map((ex, idx) => (
-            <div key={idx} className="p-3 glass-card rounded-3 row g-2 align-items-center">
-              <div className="col-md-2">
+            <div key={idx} className="p-3 glass-card rounded-3 row g-2 align-items-end position-relative">
+              <div className="col-12 col-sm-6 col-lg-2">
                 <label className="text-muted small">Day</label>
                 <select
                   className="form-select glass-input"
@@ -232,7 +232,7 @@ export const WorkoutPlanBuilder = () => {
                 </select>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-12 col-sm-6 col-lg-3">
                 <label className="text-muted small">Exercise Name</label>
                 <input
                   type="text"
@@ -244,7 +244,7 @@ export const WorkoutPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-2">
+              <div className="col-12 col-sm-4 col-lg-2">
                 <label className="text-muted small">Target Muscle</label>
                 <input
                   type="text"
@@ -255,7 +255,7 @@ export const WorkoutPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1">
+              <div className="col-6 col-sm-3 col-lg-1">
                 <label className="text-muted small">Sets</label>
                 <input
                   type="number"
@@ -265,7 +265,7 @@ export const WorkoutPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-2">
+              <div className="col-4 col-sm-3 col-lg-2">
                 <label className="text-muted small">Reps</label>
                 <input
                   type="text"
@@ -276,10 +276,12 @@ export const WorkoutPlanBuilder = () => {
                 />
               </div>
 
-              <div className="col-md-1 text-end pt-3">
+              <div className="col-2 col-sm-2 col-lg-2 text-end">
                 <button
                   type="button"
-                  className="btn btn-link text-danger p-0"
+                  className="btn btn-link text-danger p-2 hover-white"
+                  title="Remove exercise"
+                  aria-label="Remove exercise"
                   onClick={() => handleRemoveExerciseRow(idx)}
                 >
                   <FiTrash2 size={18} />

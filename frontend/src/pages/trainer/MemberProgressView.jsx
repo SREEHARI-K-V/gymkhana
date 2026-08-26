@@ -51,20 +51,20 @@ export const MemberProgressView = () => {
   return (
     <div className="d-flex flex-column gap-4">
       {/* Header */}
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2 gap-sm-3">
         <button
           onClick={() => navigate(-1)}
-          className="btn btn-secondary-glass d-flex align-items-center gap-2"
+          className="btn btn-secondary-glass d-flex align-items-center justify-content-center gap-2"
         >
           <FiArrowLeft size={18} />
           <span>Back to Assigned Roster</span>
         </button>
         <button
           onClick={() => setLogModal(true)}
-          className="btn btn-primary-gradient d-flex align-items-center gap-2"
+          className="btn btn-primary-gradient d-flex align-items-center justify-content-center gap-2"
         >
           <FiPlus size={18} />
-          <span>Log Assessment / Weight Check-in</span>
+          <span>Log Assessment / Weight</span>
         </button>
       </div>
 
@@ -196,7 +196,7 @@ export const MemberProgressView = () => {
         title={`Log Body Metrics for ${member.full_name}`}
       >
         <form onSubmit={handleLogSubmit} className="row g-3">
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Assessment Date</label>
             <input
               type="date"
@@ -206,7 +206,7 @@ export const MemberProgressView = () => {
               required
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Weight (kg)</label>
             <input
               type="number"
@@ -217,7 +217,7 @@ export const MemberProgressView = () => {
               required
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Body Fat %</label>
             <input
               type="number"
@@ -227,7 +227,7 @@ export const MemberProgressView = () => {
               onChange={(e) => setLogForm({ ...logForm, body_fat_pct: parseFloat(e.target.value) })}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-sm-6">
             <label className="form-label text-muted small fw-semibold">Waist Circumference (inches)</label>
             <input
               type="number"

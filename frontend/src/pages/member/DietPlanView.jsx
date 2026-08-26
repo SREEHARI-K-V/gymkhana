@@ -40,34 +40,40 @@ export const DietPlanView = () => {
             </div>
 
             {/* Macro Pill Cards */}
-            <div className="row g-3">
+            <div className="row g-2 g-sm-3">
               <div className="col-4">
-                <div className="p-3 glass-card-static rounded-3 text-center">
-                  <small className="text-muted">Protein</small>
-                  <h4 className="text-primary font-weight-bold mb-0 mt-1">{activePlan.protein_target_g}g</h4>
+                <div className="p-2 p-sm-3 glass-card-static rounded-3 text-center">
+                  <small className="text-muted d-block text-truncate" style={{ fontSize: '0.75rem' }}>Protein</small>
+                  <h4 className="text-primary font-weight-bold mb-0 mt-1" style={{ fontSize: 'clamp(1rem, 3.5vw, 1.5rem)' }}>
+                    {activePlan.protein_target_g}g
+                  </h4>
                 </div>
               </div>
               <div className="col-4">
-                <div className="p-3 glass-card-static rounded-3 text-center">
-                  <small className="text-muted">Carbohydrates</small>
-                  <h4 className="text-success font-weight-bold mb-0 mt-1">{activePlan.carbs_target_g}g</h4>
+                <div className="p-2 p-sm-3 glass-card-static rounded-3 text-center">
+                  <small className="text-muted d-block text-truncate" style={{ fontSize: '0.75rem' }}>Carbs</small>
+                  <h4 className="text-success font-weight-bold mb-0 mt-1" style={{ fontSize: 'clamp(1rem, 3.5vw, 1.5rem)' }}>
+                    {activePlan.carbs_target_g}g
+                  </h4>
                 </div>
               </div>
               <div className="col-4">
-                <div className="p-3 glass-card-static rounded-3 text-center">
-                  <small className="text-muted">Fats</small>
-                  <h4 className="text-warning font-weight-bold mb-0 mt-1">{activePlan.fat_target_g}g</h4>
+                <div className="p-2 p-sm-3 glass-card-static rounded-3 text-center">
+                  <small className="text-muted d-block text-truncate" style={{ fontSize: '0.75rem' }}>Fats</small>
+                  <h4 className="text-warning font-weight-bold mb-0 mt-1" style={{ fontSize: 'clamp(1rem, 3.5vw, 1.5rem)' }}>
+                    {activePlan.fat_target_g}g
+                  </h4>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Meals by Day */}
-          <div className="row g-4">
+          <div className="row g-3 g-md-4">
             {days.map((day) => {
               const dayMeals = (activePlan.meals || []).filter((m) => m.day_of_week === day);
               return (
-                <div key={day} className="col-12 col-md-6 col-lg-4">
+                <div key={day} className="col-12 col-sm-6 col-lg-4">
                   <div className="glass-card-static p-4 h-100">
                     <div className="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2">
                       <h5 className="text-white font-weight-bold mb-0">{day}</h5>

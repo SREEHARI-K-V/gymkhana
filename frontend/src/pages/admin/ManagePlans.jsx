@@ -65,9 +65,9 @@ export const ManagePlans = () => {
       {loading ? (
         <SkeletonLoader count={3} height="200px" />
       ) : (
-        <div className="row g-4">
+        <div className="row g-3 g-md-4">
           {plans.map((p) => (
-            <div key={p.id} className="col-12 col-md-6 col-lg-3">
+            <div key={p.id} className="col-12 col-sm-6 col-lg-3">
               <div className="glass-card p-4 d-flex flex-column justify-content-between h-100 position-relative">
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-3">
