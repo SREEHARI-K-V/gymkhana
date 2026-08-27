@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotification } from '../../context/NotificationContext';
-import { FiActivity, FiUser, FiMail, FiLock, FiPhone, FiCalendar, FiArrowRight, FiEye, FiEyeOff, FiTarget } from 'react-icons/fi';
+import { FiActivity, FiUser, FiMail, FiLock, FiPhone, FiCalendar, FiArrowRight, FiEye, FiEyeOff, FiTarget, FiArrowLeft } from 'react-icons/fi';
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -75,6 +75,14 @@ export const RegisterPage = () => {
       />
 
       <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '580px', borderRadius: '24px' }}>
+        {/* Back to Home Link */}
+        <div className="mb-3">
+          <Link to="/" className="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 hover-white">
+            <FiArrowLeft size={15} />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         <div className="text-center mb-4">
           <div
             className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3 shadow-lg"

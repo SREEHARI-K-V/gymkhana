@@ -12,7 +12,8 @@ import {
   FiUser, 
   FiAward, 
   FiShield, 
-  FiChevronDown 
+  FiChevronDown,
+  FiArrowLeft 
 } from 'react-icons/fi';
 
 export const LoginPage = () => {
@@ -89,6 +90,14 @@ export const LoginPage = () => {
       />
 
       <div className="glass-card p-4 p-sm-5 w-100 position-relative z-1" style={{ maxWidth: '460px', borderRadius: '24px' }}>
+        {/* Back to Home Link */}
+        <div className="mb-3">
+          <Link to="/" className="text-muted small text-decoration-none d-inline-flex align-items-center gap-1 hover-white">
+            <FiArrowLeft size={15} />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         {/* Header Section */}
         <div className="text-center mb-4">
           <div

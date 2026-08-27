@@ -541,3 +541,267 @@ select.glass-input option {
   }
 }
 
+/* ==========================================================================
+   Landing / Home Page Specialized Styling & Animations
+   ========================================================================== */
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #FFFFFF 20%, #818CF8 60%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #38BDF8 0%, #22D3EE 50%, #818CF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-nav-link {
+  color: #94A3B8;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.landing-nav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.landing-nav-link.active {
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: 50px;
+  background: rgba(79, 70, 229, 0.18);
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.25);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #C7D2FE;
+  backdrop-filter: blur(8px);
+}
+
+.hero-mockup-container {
+  position: relative;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(79, 70, 229, 0.2);
+}
+
+.floating-hero-card {
+  position: absolute;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.25);
+  z-index: 5;
+  animation: floatSlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatSlow {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+.floating-hero-card-bottom {
+  position: absolute;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(79, 70, 229, 0.25);
+  z-index: 5;
+  animation: floatSlowAlt 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatSlowAlt {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(8px); }
+}
+
+.feature-box-glow {
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.feature-box-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #4F46E5, #06B6D4, transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.feature-box-glow:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(79, 70, 229, 0.25);
+}
+
+.feature-box-glow:hover::before {
+  opacity: 1;
+}
+
+.feature-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pricing-card-featured {
+  border: 2px solid #6366F1 !important;
+  box-shadow: 0 20px 50px rgba(79, 70, 229, 0.35) !important;
+  transform: scale(1.03);
+}
+
+@media (max-width: 991.98px) {
+  .pricing-card-featured {
+    transform: scale(1);
+  }
+}
+
+.pricing-ribbon {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+  color: #FFF;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5);
+}
+
+.calculator-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.calculator-result-box {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(6, 182, 212, 0.1);
+}
+
+.faq-accordion-item {
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.faq-accordion-item.expanded {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.faq-header-btn {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  color: #FFFFFF;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.faq-header-btn:hover {
+  color: #38BDF8;
+}
+
+.footer-nav-link {
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+
+.footer-nav-link:hover {
+  color: #38BDF8;
+  padding-left: 4px;
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(56, 189, 248, 0.5);
+}
+
+.step-number-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+  color: #FFF;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.step-card {
+  position: relative;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: 18px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.step-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+

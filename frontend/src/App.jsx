@@ -12,6 +12,7 @@ import { MemberLayout } from './layouts/MemberLayout';
 // Auth Pages
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
+import { HomePage } from './pages/HomePage';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -60,16 +61,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
-// Root Redirect based on user role
-const RootRedirect = () => {
-  const { user, loading } = useAuth();
 
-  if (loading) return null;
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
-  if (user.role === 'TRAINER') return <Navigate to="/trainer" replace />;
-  return <Navigate to="/member" replace />;
-};
 
 export default function App() {
   return (
@@ -78,9 +70,10 @@ export default function App() {
         <NotificationProvider>
           <Routes>
             {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<RootRedirect />} />
 
             {/* Protected Admin Routes */}
             <Route
