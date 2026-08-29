@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useNotification } from '../context/NotificationContext';
@@ -15,14 +15,13 @@ import {
   FiLayers, 
   FiTrendingUp, 
   FiHeart, 
-  FiMenu, 
-  FiX, 
   FiCheck, 
   FiChevronDown, 
   FiChevronUp, 
   FiLogOut, 
   FiLayout, 
-  FiHelpCircle
+  FiHelpCircle,
+  FiMoreVertical
 } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -41,8 +40,39 @@ export const HomePage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Mobile menu toggle
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Three-dot navigation dropdown state
+  const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setNavDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setNavDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Navigation menu items for three-dot menu
+  const navMenuItems = [
+    { label: 'Features', href: '#features', icon: <FiLayers size={16} className="text-primary" /> },
+    { label: 'App Experience', href: '#mockup-preview', icon: <FiActivity size={16} className="text-cyan" /> },
+    { label: 'Gym Centers', href: '#gyms', icon: <FiMapPin size={16} className="text-success" /> },
+    { label: 'BMI & Macro Tool', href: '#calculator', icon: <FiTrendingUp size={16} className="text-warning" /> },
+    { label: 'Pricing Plans', href: '#pricing', icon: <FiAward size={16} className="text-info" /> },
+    { label: 'Role Portals', href: '#portals', icon: <FiShield size={16} className="text-primary" /> },
+    { label: 'FAQ', href: '#faq', icon: <FiHelpCircle size={16} className="text-cyan" /> }
+  ];
 
   // Demo Login Modal state
   const [demoModalOpen, setDemoModalOpen] = useState(false);
@@ -345,22 +375,11 @@ export const HomePage = () => {
             </div>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="d-none d-xl-flex align-items-center gap-1">
-            <a href="#features" className="landing-nav-link">Features</a>
-            <a href="#mockup-preview" className="landing-nav-link">App Experience</a>
-            <a href="#gyms" className="landing-nav-link">Gym Centers</a>
-            <a href="#calculator" className="landing-nav-link">BMI & Macro Tool</a>
-            <a href="#pricing" className="landing-nav-link">Pricing Plans</a>
-            <a href="#portals" className="landing-nav-link">Role Portals</a>
-            <a href="#faq" className="landing-nav-link">FAQ</a>
-          </div>
-
-          {/* User Auth Buttons / Action Buttons */}
-          <div className="d-none d-md-flex align-items-center gap-3">
+          {/* Right Controls: Sign In / Dashboard & Three-Dot Navigation Menu */}
+          <div className="d-flex align-items-center gap-2 gap-sm-3">
             {user ? (
-              <div className="d-flex align-items-center gap-3">
-                <div className="d-flex align-items-center gap-2 px-3 py-1 glass-card-static rounded-pill border border-primary border-opacity-30">
+              <div className="d-flex align-items-center gap-2">
+                <div className="d-none d-sm-flex align-items-center gap-2 px-3 py-1 glass-card-static rounded-pill border border-primary border-opacity-30">
                   <FiUser size={15} className="text-cyan" />
                   <span className="text-white small fw-semibold">
                     {user.full_name?.split(' ')[0]} ({user.role})
@@ -368,10 +387,10 @@ export const HomePage = () => {
                 </div>
                 <Link
                   to={user.role === 'ADMIN' ? '/admin' : user.role === 'TRAINER' ? '/trainer' : '/member'}
-                  className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2"
+                  className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 px-3 py-2 fw-semibold"
                 >
                   <FiLayout size={15} />
-                  <span>Go to Dashboard</span>
+                  <span>Dashboard</span>
                 </Link>
                 <button
                   onClick={() => {
@@ -386,126 +405,66 @@ export const HomePage = () => {
                 </button>
               </div>
             ) : (
-              <div className="d-flex align-items-center gap-2">
-                <Link
-                  to="/login"
-                  className="btn btn-primary-gradient btn-sm px-4 py-2 d-flex align-items-center gap-2 shadow-sm fw-semibold"
-                  style={{ fontSize: '0.88rem' }}
-                >
-                  <span>Sign In</span>
-                  <FiArrowRight size={14} />
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="btn btn-primary-gradient btn-sm px-3 px-sm-4 py-2 d-flex align-items-center gap-2 shadow-sm fw-semibold"
+                style={{ fontSize: '0.88rem' }}
+              >
+                <span>Sign In</span>
+                <FiArrowRight size={14} />
+              </Link>
             )}
-          </div>
 
-          {/* Mobile Menu Trigger */}
-          <div className="d-flex d-xl-none align-items-center gap-2">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="btn btn-secondary-glass p-2"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
-            </button>
+            {/* Three-Dot Options Menu Button (Positioned Next Right to Sign In) */}
+            <div className="position-relative" ref={dropdownRef}>
+              <button
+                onClick={() => setNavDropdownOpen(!navDropdownOpen)}
+                className={`btn btn-secondary-glass p-2 d-flex align-items-center justify-content-center rounded-3 ${
+                  navDropdownOpen ? 'border-cyan text-cyan' : ''
+                }`}
+                aria-label="Toggle navigation menu"
+                title="Navigation Menu"
+                style={{ width: '40px', height: '40px' }}
+              >
+                <FiMoreVertical size={20} />
+              </button>
+
+              {/* Three-Dot Dropdown Menu Popup */}
+              {navDropdownOpen && (
+                <div 
+                  className="position-absolute end-0 mt-2 glass-card p-2 shadow-lg border border-secondary border-opacity-30 animate-fadeIn"
+                  style={{ 
+                    minWidth: '230px', 
+                    borderRadius: '16px',
+                    zIndex: 1050,
+                    background: 'rgba(15, 23, 42, 0.95)',
+                    backdropFilter: 'blur(24px)'
+                  }}
+                >
+                  <div className="px-3 py-2 border-bottom border-secondary border-opacity-25 mb-1">
+                    <span className="text-muted small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.7rem' }}>
+                      Gymkhana Navigation
+                    </span>
+                  </div>
+                  <div className="d-flex flex-column gap-1">
+                    {navMenuItems.map((item, idx) => (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        onClick={() => setNavDropdownOpen(false)}
+                        className="d-flex align-items-center gap-3 px-3 py-2 rounded-2 text-decoration-none landing-nav-dropdown-link"
+                        style={{ fontSize: '0.88rem' }}
+                      >
+                        {item.icon}
+                        <span className="fw-medium text-white">{item.label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="glass-card mt-3 p-4 d-xl-none border border-secondary border-opacity-25 animate-fadeIn">
-            <div className="d-flex flex-column gap-2 mb-4">
-              <a 
-                href="#features" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Features & Pillars
-              </a>
-              <a 
-                href="#mockup-preview" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Interactive App Experience
-              </a>
-              <a 
-                href="#gyms" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Gym Centers & Passes
-              </a>
-              <a 
-                href="#calculator" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                BMI & Macro Calculator Tool
-              </a>
-              <a 
-                href="#pricing" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Membership Plans
-              </a>
-              <a 
-                href="#portals" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Admin, Trainer & Member Portals
-              </a>
-              <a 
-                href="#faq" 
-                onClick={() => setMobileMenuOpen(false)} 
-                className="landing-nav-link py-2"
-              >
-                Frequently Asked Questions
-              </a>
-            </div>
-
-            <hr className="border-secondary border-opacity-25 my-3" />
-
-            {user ? (
-              <div className="d-flex flex-column gap-2">
-                <div className="text-muted small mb-1">
-                  Signed in as: <strong className="text-white">{user.full_name}</strong> ({user.role})
-                </div>
-                <Link
-                  to={user.role === 'ADMIN' ? '/admin' : user.role === 'TRAINER' ? '/trainer' : '/member'}
-                  className="btn btn-primary-gradient w-100 py-2 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FiLayout size={16} />
-                  <span>Enter {user.role} Dashboard</span>
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                    addToast('Logged out successfully', 'info');
-                  }}
-                  className="btn btn-secondary-glass w-100 py-2 d-flex align-items-center justify-content-center gap-2"
-                >
-                  <FiLogOut size={16} />
-                  <span>Log Out</span>
-                </button>
-              </div>
-            ) : (
-              <div className="d-flex flex-column gap-2">
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="btn btn-primary-gradient w-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold"
-                >
-                  <span>Sign In</span>
-                  <FiArrowRight size={16} />
-                </Link>
-              </div>
-            )}
-          </div>
-        )}
       </nav>
 
       {/* =========================================================================
