@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useNotification } from '../context/NotificationContext';
@@ -29,6 +29,17 @@ export const HomePage = () => {
   const { user, login, logout } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
+
+  // Scroll listener for seamless navbar background
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 25);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Mobile menu toggle
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -264,14 +275,14 @@ export const HomePage = () => {
   ];
 
   return (
-    <div className="min-vh-100 bg-dark text-white position-relative overflow-x-hidden">
+    <div className="min-vh-100 text-white position-relative overflow-x-hidden" style={{ background: 'transparent' }}>
       {/* Background Decorative Neon Glow Spheres */}
       <div
         className="position-absolute rounded-circle"
         style={{
           width: '650px',
           height: '650px',
-          background: 'radial-gradient(circle, rgba(79, 70, 229, 0.22) 0%, rgba(0, 0, 0, 0) 70%)',
+          background: 'radial-gradient(circle, rgba(79, 70, 229, 0.2) 0%, rgba(0, 0, 0, 0) 70%)',
           top: '-150px',
           left: '-150px',
           filter: 'blur(70px)',
@@ -284,7 +295,7 @@ export const HomePage = () => {
         style={{
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(0, 0, 0, 0) 70%)',
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.16) 0%, rgba(0, 0, 0, 0) 70%)',
           top: '30%',
           right: '-200px',
           filter: 'blur(80px)',
@@ -297,7 +308,7 @@ export const HomePage = () => {
         style={{
           width: '700px',
           height: '700px',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, rgba(0, 0, 0, 0) 70%)',
           bottom: '10%',
           left: '10%',
           filter: 'blur(90px)',
@@ -306,19 +317,23 @@ export const HomePage = () => {
         }}
       />
 
-      {/* Top Banner Offer Bar */}
-      <div 
-        className="py-2 px-3 text-center text-white small fw-semibold border-bottom border-secondary border-opacity-25 position-relative z-2"
-        style={{ background: 'linear-gradient(90deg, rgba(79, 70, 229, 0.9) 0%, rgba(6, 182, 212, 0.9) 100%)' }}
-      >
-        <span className="me-2">🔥 <strong>LIMITED TIME:</strong> Get 20% Off Annual Multi-Gym VIP Passes with code <strong>GYM2026</strong></span>
-        <a href="#pricing" className="text-white text-decoration-underline fw-bold">Claim Offer</a>
+      {/* =========================================================================
+          SEAMLESS TOP ANNOUNCEMENT BANNER
+          ========================================================================= */}
+      <div className="home-top-announcement text-center pt-3 pb-1 px-3 position-relative z-3">
+        <div className="d-inline-flex flex-wrap align-items-center justify-content-center gap-2 px-3 py-1 rounded-pill glass-card-static border border-primary border-opacity-30 shadow-sm small">
+          <span className="badge bg-primary bg-opacity-25 text-cyan rounded-pill px-2 py-0 fw-bold" style={{ fontSize: '0.72rem' }}>
+            🔥 SPECIAL OFFER
+          </span>
+          <span className="text-white">Get <strong>20% Off</strong> All Annual Multi-Gym VIP Passes with code <strong>GYM2026</strong></span>
+          <a href="#pricing" className="text-cyan text-decoration-none fw-bold ms-1 hover-white">Claim Now →</a>
+        </div>
       </div>
 
       {/* =========================================================================
-          GLASSMORPHIC NAVIGATION BAR
+          SEAMLESS UNIFIED NAVIGATION BAR
           ========================================================================= */}
-      <nav className="glass-navbar sticky-top px-3 px-lg-5 py-3 position-relative z-3">
+      <nav className={`home-navbar-seamless sticky-top px-3 px-lg-5 py-3 position-relative z-3 ${scrolled ? 'scrolled' : ''}`}>
         <div className="container-fluid d-flex align-items-center justify-content-between p-0">
           {/* Brand Logo */}
           <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
@@ -979,7 +994,7 @@ export const HomePage = () => {
       {/* =========================================================================
           STATS COUNTER BANNER
           ========================================================================= */}
-      <section className="py-5 position-relative z-2 border-top border-bottom border-secondary border-opacity-25" style={{ background: 'rgba(15, 23, 42, 0.6)' }}>
+      <section className="py-5 position-relative z-2 border-top border-bottom border-secondary border-opacity-25" style={{ background: 'rgba(15, 23, 42, 0.4)' }}>
         <div className="container">
           <div className="row g-4 text-center">
             <div className="col-6 col-lg-3">
