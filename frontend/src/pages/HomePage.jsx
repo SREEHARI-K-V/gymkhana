@@ -387,27 +387,12 @@ export const HomePage = () => {
               </div>
             ) : (
               <div className="d-flex align-items-center gap-2">
-                <button
-                  onClick={() => setDemoModalOpen(true)}
-                  className="btn btn-secondary-glass btn-sm d-flex align-items-center gap-1 text-cyan border-cyan border-opacity-30"
-                  style={{ fontSize: '0.85rem' }}
-                >
-                  <FiZap size={14} className="text-warning" />
-                  <span>Demo Logins</span>
-                </button>
                 <Link
                   to="/login"
-                  className="btn btn-secondary-glass btn-sm"
-                  style={{ fontSize: '0.85rem' }}
+                  className="btn btn-primary-gradient btn-sm px-4 py-2 d-flex align-items-center gap-2 shadow-sm fw-semibold"
+                  style={{ fontSize: '0.88rem' }}
                 >
-                  Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 shadow-sm"
-                  style={{ fontSize: '0.85rem' }}
-                >
-                  <span>Get Started Free</span>
+                  <span>Sign In</span>
                   <FiArrowRight size={14} />
                 </Link>
               </div>
@@ -509,36 +494,14 @@ export const HomePage = () => {
               </div>
             ) : (
               <div className="d-flex flex-column gap-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setDemoModalOpen(true);
-                  }}
-                  className="btn btn-secondary-glass w-100 py-2 d-flex align-items-center justify-content-center gap-2 text-cyan"
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn btn-primary-gradient w-100 py-2 d-flex align-items-center justify-content-center gap-2 fw-semibold"
                 >
-                  <FiZap size={16} className="text-warning" />
-                  <span>One-Click Demo Accounts</span>
-                </button>
-                <div className="row g-2">
-                  <div className="col-6">
-                    <Link
-                      to="/login"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="btn btn-secondary-glass w-100 py-2"
-                    >
-                      Sign In
-                    </Link>
-                  </div>
-                  <div className="col-6">
-                    <Link
-                      to="/register"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="btn btn-primary-gradient w-100 py-2"
-                    >
-                      Register
-                    </Link>
-                  </div>
-                </div>
+                  <span>Sign In</span>
+                  <FiArrowRight size={16} />
+                </Link>
               </div>
             )}
           </div>
