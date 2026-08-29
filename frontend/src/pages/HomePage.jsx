@@ -318,19 +318,6 @@ export const HomePage = () => {
       />
 
       {/* =========================================================================
-          SEAMLESS TOP ANNOUNCEMENT BANNER
-          ========================================================================= */}
-      <div className="home-top-announcement text-center pt-3 pb-1 px-3 position-relative z-3">
-        <div className="d-inline-flex flex-wrap align-items-center justify-content-center gap-2 px-3 py-1 rounded-pill glass-card-static border border-primary border-opacity-30 shadow-sm small">
-          <span className="badge bg-primary bg-opacity-25 text-cyan rounded-pill px-2 py-0 fw-bold" style={{ fontSize: '0.72rem' }}>
-            🔥 SPECIAL OFFER
-          </span>
-          <span className="text-white">Get <strong>20% Off</strong> All Annual Multi-Gym VIP Passes with code <strong>GYM2026</strong></span>
-          <a href="#pricing" className="text-cyan text-decoration-none fw-bold ms-1 hover-white">Claim Now →</a>
-        </div>
-      </div>
-
-      {/* =========================================================================
           SEAMLESS UNIFIED NAVIGATION BAR
           ========================================================================= */}
       <nav className={`home-navbar-seamless sticky-top px-3 px-lg-5 py-3 position-relative z-3 ${scrolled ? 'scrolled' : ''}`}>
