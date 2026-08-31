@@ -377,43 +377,43 @@ export const HomePage = () => {
           </Link>
 
           {/* Right Controls: Sign In / Dashboard & Three-Dot Navigation Menu */}
-          <div className="d-flex align-items-center gap-2 gap-sm-3">
+          <div className="d-flex align-items-center gap-1 gap-sm-2">
             {user ? (
-              <div className="d-flex align-items-center gap-2">
-                <div className="d-none d-sm-flex align-items-center gap-2 px-3 py-1 glass-card-static rounded-pill border border-primary border-opacity-30">
-                  <FiUser size={15} className="text-cyan" />
-                  <span className="text-white small fw-semibold">
+              <div className="d-flex align-items-center gap-1 gap-sm-2">
+                <div className="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded-pill border border-white border-opacity-10" style={{ background: 'rgba(255, 255, 255, 0.04)' }}>
+                  <FiUser size={14} className="text-cyan" />
+                  <span className="text-white small fw-semibold" style={{ fontSize: '0.82rem' }}>
                     {user.full_name?.split(' ')[0]} ({user.role})
                   </span>
                 </div>
                 <Link
                   to={user.role === 'ADMIN' ? '/admin' : user.role === 'TRAINER' ? '/trainer' : '/member'}
-                  className="btn btn-primary-gradient btn-sm d-flex align-items-center gap-2 px-3 py-2 fw-semibold"
+                  className="home-nav-icon-btn"
+                  title={`Enter ${user.role} Dashboard`}
+                  aria-label="Dashboard"
                 >
-                  <FiLayout size={15} />
-                  <span>Dashboard</span>
+                  <FiLayout size={19} />
                 </Link>
                 <button
                   onClick={() => {
                     logout();
                     addToast('You have logged out.', 'info');
                   }}
-                  className="btn btn-secondary-glass btn-sm p-2"
+                  className="home-nav-icon-btn"
                   title="Sign Out"
                   aria-label="Sign Out"
                 >
-                  <FiLogOut size={16} />
+                  <FiLogOut size={19} />
                 </button>
               </div>
             ) : (
               <Link
                 to="/login"
-                className="btn btn-primary-gradient p-2 d-flex align-items-center justify-content-center rounded-3 shadow-sm"
+                className="home-nav-icon-btn"
                 title="Sign In / Account"
                 aria-label="Sign In"
-                style={{ width: '40px', height: '40px' }}
               >
-                <FiUser size={19} />
+                <FiUser size={20} />
               </Link>
             )}
 
@@ -421,14 +421,11 @@ export const HomePage = () => {
             <div className="position-relative" ref={dropdownRef}>
               <button
                 onClick={() => setNavDropdownOpen(!navDropdownOpen)}
-                className={`btn btn-secondary-glass p-2 d-flex align-items-center justify-content-center rounded-3 ${
-                  navDropdownOpen ? 'border-cyan text-cyan' : ''
-                }`}
+                className={`home-nav-icon-btn ${navDropdownOpen ? 'active' : ''}`}
                 aria-label="Toggle navigation menu"
                 title="Navigation Menu"
-                style={{ width: '40px', height: '40px' }}
               >
-                {navDropdownOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+                {navDropdownOpen ? <FiX size={21} /> : <FiMenu size={21} />}
               </button>
 
               {/* Three-Dot Dropdown Menu Popup */}
