@@ -349,127 +349,154 @@ export const HomePage = () => {
       />
 
       {/* =========================================================================
-          SEAMLESS UNIFIED NAVIGATION BAR
+          FIRST SCREEN VIEWPORT: NAVBAR + MOTIVATIONAL THOUGHT ONLY
           ========================================================================= */}
-      <nav className={`home-navbar-seamless sticky-top px-3 px-lg-5 py-3 position-relative z-3 ${scrolled ? 'scrolled' : ''}`}>
-        <div className="container-fluid d-flex align-items-center justify-content-between p-0">
-          {/* Brand Logo */}
-          <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-            <div
-              className="d-flex align-items-center justify-content-center rounded-3 shadow"
-              style={{
-                width: '42px',
-                height: '42px',
-                background: 'linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)',
-                boxShadow: '0 0 20px rgba(79, 70, 229, 0.6)'
-              }}
-            >
-              <FiActivity color="#FFFFFF" size={24} />
-            </div>
-            <div>
-              <span className="brand-title text-white fs-4 fw-extrabold tracking-tight d-block leading-none">
-                GYMKHANA
-              </span>
-              <span className="text-cyan small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.65rem' }}>
-                Fitness & Gym Ecosystem
-              </span>
-            </div>
-          </Link>
-
-          {/* Right Controls: Sign In / Dashboard & Three-Dot Navigation Menu */}
-          <div className="d-flex align-items-center gap-1 gap-sm-2">
-            {user ? (
-              <div className="d-flex align-items-center gap-1 gap-sm-2">
-                <div className="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded-pill border border-white border-opacity-10" style={{ background: 'rgba(255, 255, 255, 0.04)' }}>
-                  <FiUser size={14} className="text-cyan" />
-                  <span className="text-white small fw-semibold" style={{ fontSize: '0.82rem' }}>
-                    {user.full_name?.split(' ')[0]} ({user.role})
-                  </span>
-                </div>
-                <Link
-                  to={user.role === 'ADMIN' ? '/admin' : user.role === 'TRAINER' ? '/trainer' : '/member'}
-                  className="home-nav-icon-btn"
-                  title={`Enter ${user.role} Dashboard`}
-                  aria-label="Dashboard"
-                >
-                  <FiLayout size={19} />
-                </Link>
-                <button
-                  onClick={() => {
-                    logout();
-                    addToast('You have logged out.', 'info');
-                  }}
-                  className="home-nav-icon-btn"
-                  title="Sign Out"
-                  aria-label="Sign Out"
-                >
-                  <FiLogOut size={19} />
-                </button>
+      <div className="motivational-hero-viewport">
+        {/* Unified Transparent Navbar */}
+        <nav className={`home-navbar-seamless px-3 px-lg-5 py-3 position-relative z-3 ${scrolled ? 'scrolled' : ''}`}>
+          <div className="container-fluid d-flex align-items-center justify-content-between p-0">
+            {/* Brand Logo */}
+            <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-3 shadow"
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  background: 'linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)',
+                  boxShadow: '0 0 20px rgba(79, 70, 229, 0.6)'
+                }}
+              >
+                <FiActivity color="#FFFFFF" size={24} />
               </div>
-            ) : (
-              <Link
-                to="/login"
-                className="home-nav-icon-btn"
-                title="Sign In / Account"
-                aria-label="Sign In"
-              >
-                <FiUser size={20} />
-              </Link>
-            )}
+              <div>
+                <span className="brand-title text-white fs-4 fw-extrabold tracking-tight d-block leading-none">
+                  GYMKHANA
+                </span>
+                <span className="text-cyan small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.65rem' }}>
+                  Fitness & Gym Ecosystem
+                </span>
+              </div>
+            </Link>
 
-            {/* Three-Dash (Menu) Options Button (Positioned Next Right to Sign In) */}
-            <div className="position-relative" ref={dropdownRef}>
-              <button
-                onClick={() => setNavDropdownOpen(!navDropdownOpen)}
-                className={`home-nav-icon-btn ${navDropdownOpen ? 'active' : ''}`}
-                aria-label="Toggle navigation menu"
-                title="Navigation Menu"
-              >
-                {navDropdownOpen ? <FiX size={21} /> : <FiMenu size={21} />}
-              </button>
-
-              {/* Three-Dot Dropdown Menu Popup */}
-              {navDropdownOpen && (
-                <div 
-                  className="position-absolute end-0 mt-2 glass-card p-2 shadow-lg border border-secondary border-opacity-30 animate-fadeIn"
-                  style={{ 
-                    minWidth: '230px', 
-                    borderRadius: '16px',
-                    zIndex: 1050,
-                    background: 'rgba(15, 23, 42, 0.95)',
-                    backdropFilter: 'blur(24px)'
-                  }}
-                >
-                  <div className="px-3 py-2 border-bottom border-secondary border-opacity-25 mb-1">
-                    <span className="text-muted small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.7rem' }}>
-                      Gymkhana Navigation
+            {/* Right Controls: Sign In (Person Icon) & Navigation Menu (Three Dashes) */}
+            <div className="d-flex align-items-center gap-1 gap-sm-2">
+              {user ? (
+                <div className="d-flex align-items-center gap-1 gap-sm-2">
+                  <div className="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded-pill border border-white border-opacity-10" style={{ background: 'rgba(255, 255, 255, 0.04)' }}>
+                    <FiUser size={14} className="text-cyan" />
+                    <span className="text-white small fw-semibold" style={{ fontSize: '0.82rem' }}>
+                      {user.full_name?.split(' ')[0]} ({user.role})
                     </span>
                   </div>
-                  <div className="d-flex flex-column gap-1">
-                    {navMenuItems.map((item, idx) => (
-                      <a
-                        key={idx}
-                        href={item.href}
-                        onClick={() => setNavDropdownOpen(false)}
-                        className="d-flex align-items-center gap-3 px-3 py-2 rounded-2 text-decoration-none landing-nav-dropdown-link"
-                        style={{ fontSize: '0.88rem' }}
-                      >
-                        {item.icon}
-                        <span className="fw-medium text-white">{item.label}</span>
-                      </a>
-                    ))}
-                  </div>
+                  <Link
+                    to={user.role === 'ADMIN' ? '/admin' : user.role === 'TRAINER' ? '/trainer' : '/member'}
+                    className="home-nav-icon-btn"
+                    title={`Enter ${user.role} Dashboard`}
+                    aria-label="Dashboard"
+                  >
+                    <FiLayout size={19} />
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      addToast('You have logged out.', 'info');
+                    }}
+                    className="home-nav-icon-btn"
+                    title="Sign Out"
+                    aria-label="Sign Out"
+                  >
+                    <FiLogOut size={19} />
+                  </button>
                 </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="home-nav-icon-btn"
+                  title="Sign In / Account"
+                  aria-label="Sign In"
+                >
+                  <FiUser size={20} />
+                </Link>
               )}
+
+              {/* Three-Dash (Menu) Options Button (Positioned Next Right to Sign In) */}
+              <div className="position-relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setNavDropdownOpen(!navDropdownOpen)}
+                  className={`home-nav-icon-btn ${navDropdownOpen ? 'active' : ''}`}
+                  aria-label="Toggle navigation menu"
+                  title="Navigation Menu"
+                >
+                  {navDropdownOpen ? <FiX size={21} /> : <FiMenu size={21} />}
+                </button>
+
+                {/* Three-Dot Dropdown Menu Popup */}
+                {navDropdownOpen && (
+                  <div 
+                    className="position-absolute end-0 mt-2 glass-card p-2 shadow-lg border border-secondary border-opacity-30 animate-fadeIn"
+                    style={{ 
+                      minWidth: '230px', 
+                      borderRadius: '16px',
+                      zIndex: 1050,
+                      background: 'rgba(15, 23, 42, 0.95)',
+                      backdropFilter: 'blur(24px)'
+                    }}
+                  >
+                    <div className="px-3 py-2 border-bottom border-secondary border-opacity-25 mb-1">
+                      <span className="text-muted small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.7rem' }}>
+                        Gymkhana Navigation
+                      </span>
+                    </div>
+                    <div className="d-flex flex-column gap-1">
+                      {navMenuItems.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href={item.href}
+                          onClick={() => setNavDropdownOpen(false)}
+                          className="d-flex align-items-center gap-3 px-3 py-2 rounded-2 text-decoration-none landing-nav-dropdown-link"
+                          style={{ fontSize: '0.88rem' }}
+                        >
+                          {item.icon}
+                          <span className="fw-medium text-white">{item.label}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+        </nav>
+
+        {/* Centered Motivational Hero Thought */}
+        <div className="hero-quote-container text-center animate-fadeIn my-auto">
+          <span className="hero-quote-tagline mb-3">
+            DISCIPLINE • PROGRESS • TRANSFORMATION
+          </span>
+          <h1 className="hero-motivational-quote">
+            “Your body can stand almost anything. <br />
+            <span className="text-gradient-primary">It’s your mind that you have to convince.”</span>
+          </h1>
+          <p className="hero-motivational-subtext mx-auto mb-0">
+            Gymkhana is more than a gym platform — it is your daily arena for discipline, elite coaching, precision nutrition, and unlocking your true potential.
+          </p>
         </div>
-      </nav>
+
+        {/* Scroll Down to Explore Indicator */}
+        <div className="text-center pb-2">
+          <a href="#explore-platform" className="scroll-indicator-btn">
+            <span>Scroll to Explore</span>
+            <div className="scroll-arrow-circle">
+              <FiChevronDown size={18} />
+            </div>
+          </a>
+        </div>
+      </div>
 
       {/* =========================================================================
-          HERO SECTION
+          PLATFORM SHOWCASE (REVEALED WHEN SCROLLING DOWN)
           ========================================================================= */}
-      <section className="position-relative pt-4 pb-5 pt-lg-5 pb-lg-5 overflow-hidden">
+      <section id="explore-platform" className="position-relative pt-5 pb-5 overflow-hidden">
         <div className="container position-relative z-2">
           {/* Main Hero Header */}
           <div className="text-center mx-auto mb-4 mb-lg-5" style={{ maxWidth: '940px' }}>
