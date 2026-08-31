@@ -408,11 +408,12 @@ export const HomePage = () => {
             ) : (
               <Link
                 to="/login"
-                className="btn btn-primary-gradient btn-sm px-3 px-sm-4 py-2 d-flex align-items-center gap-2 shadow-sm fw-semibold"
-                style={{ fontSize: '0.88rem' }}
+                className="btn btn-primary-gradient p-2 d-flex align-items-center justify-content-center rounded-3 shadow-sm"
+                title="Sign In / Account"
+                aria-label="Sign In"
+                style={{ width: '40px', height: '40px' }}
               >
-                <span>Sign In</span>
-                <FiArrowRight size={14} />
+                <FiUser size={19} />
               </Link>
             )}
 
