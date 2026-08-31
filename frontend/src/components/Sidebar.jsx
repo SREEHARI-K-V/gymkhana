@@ -62,15 +62,32 @@ export const Sidebar = ({ isOpen, toggleSidebar, closeSidebar }) => {
         {/* Brand logo & mobile close button */}
         <div className="d-flex align-items-center justify-content-between px-2 py-2 mb-3 border-bottom border-secondary border-opacity-25">
           <div className="d-flex align-items-center gap-3">
-            <div
-              className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
-              style={{ width: '38px', height: '38px', background: 'linear-gradient(135deg, #4F46E5, #06B6D4)' }}
-            >
-              <FiActivity color="#FFF" size={22} />
+            <div className="brand-logo-emblem">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                  d="M12 2L20.5 6.8V17.2L12 22L3.5 17.2V6.8L12 2Z" 
+                  stroke="url(#emblemGradSidebar)" 
+                  strokeWidth="1.75" 
+                  strokeLinejoin="round" 
+                />
+                <path 
+                  d="M7 12H17M5.5 10.2V13.8M18.5 10.2V13.8M8.5 9.5V14.5M15.5 9.5V14.5" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="1.75" 
+                  strokeLinecap="round" 
+                />
+                <circle cx="12" cy="12" r="1.75" fill="#38BDF8" />
+                <defs>
+                  <linearGradient id="emblemGradSidebar" x1="3.5" y1="2" x2="20.5" y2="22" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#818CF8" />
+                    <stop offset="1" stopColor="#38BDF8" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
             <div>
-              <h5 className="mb-0 text-white fw-bold tracking-wide" style={{ fontSize: '1.05rem' }}>GYMKHANA</h5>
-              <small className="text-muted d-block" style={{ fontSize: '0.68rem' }}>SaaS Platform</small>
+              <span className="brand-title-classic d-block" style={{ fontSize: '1.05rem' }}>GYMKHANA</span>
+              <small className="text-muted d-block" style={{ fontSize: '0.68rem', letterSpacing: '0.05em' }}>SaaS Platform</small>
             </div>
           </div>
 

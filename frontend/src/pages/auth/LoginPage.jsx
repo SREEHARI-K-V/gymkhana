@@ -101,17 +101,34 @@ export const LoginPage = () => {
         {/* Header Section */}
         <div className="text-center mb-4">
           <div
-            className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3 shadow-lg"
-            style={{
-              width: '64px',
-              height: '64px',
-              background: 'linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)',
-              boxShadow: '0 0 30px rgba(79, 70, 229, 0.5)'
-            }}
+            className="brand-logo-emblem d-inline-flex mb-3"
+            style={{ width: '56px', height: '56px', borderRadius: '16px' }}
           >
-            <FiActivity color="#FFFFFF" size={32} />
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path 
+                d="M12 2L20.5 6.8V17.2L12 22L3.5 17.2V6.8L12 2Z" 
+                stroke="url(#emblemGradLogin)" 
+                strokeWidth="1.75" 
+                strokeLinejoin="round" 
+              />
+              <path 
+                d="M7 12H17M5.5 10.2V13.8M18.5 10.2V13.8M8.5 9.5V14.5M15.5 9.5V14.5" 
+                stroke="#FFFFFF" 
+                strokeWidth="1.75" 
+                strokeLinecap="round" 
+              />
+              <circle cx="12" cy="12" r="1.75" fill="#38BDF8" />
+              <defs>
+                <linearGradient id="emblemGradLogin" x1="3.5" y1="2" x2="20.5" y2="22" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#818CF8" />
+                  <stop offset="1" stopColor="#38BDF8" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
-          <h2 className="brand-title text-white fw-bold mb-1 tracking-tight fs-3">GYMKHANA</h2>
+          <div>
+            <h2 className="brand-title-classic mb-1 fs-3">GYMKHANA</h2>
+          </div>
           <p className="auth-subheading mb-0">Gym Subscription & Workout Management System</p>
         </div>
 

@@ -1,5 +1,5 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   --bg-dark: #0F172A;
@@ -47,10 +47,57 @@ body {
   background-attachment: fixed;
 }
 
-h1, h2, h3, h4, h5, h6, .brand-title {
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: #FFFFFF;
+}
+
+.brand-title {
+  font-family: 'Cinzel', 'Montserrat', serif, sans-serif !important;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.brand-title-classic {
+  font-family: 'Cinzel', 'Montserrat', serif, sans-serif !important;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  font-size: 1.35rem;
+  color: #FFFFFF;
+  line-height: 1;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFFFFF 20%, #F1F5F9 60%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.brand-title-classic:hover {
+  letter-spacing: 0.22em;
+}
+
+.brand-logo-emblem {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.25), inset 0 0 10px rgba(6, 182, 212, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-logo-emblem:hover {
+  transform: scale(1.05);
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4), inset 0 0 15px rgba(79, 70, 229, 0.3);
 }
 
 /* Glassmorphic Container & Cards */

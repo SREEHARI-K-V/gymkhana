@@ -355,27 +355,32 @@ export const HomePage = () => {
         {/* Unified Transparent Navbar */}
         <nav className={`home-navbar-seamless px-3 px-lg-5 py-3 position-relative z-3 ${scrolled ? 'scrolled' : ''}`}>
           <div className="container-fluid d-flex align-items-center justify-content-between p-0">
-            {/* Brand Logo */}
+            {/* Brand Logo & Classic Title */}
             <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-              <div
-                className="d-flex align-items-center justify-content-center rounded-3 shadow"
-                style={{
-                  width: '42px',
-                  height: '42px',
-                  background: 'linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)',
-                  boxShadow: '0 0 20px rgba(79, 70, 229, 0.6)'
-                }}
-              >
-                <FiActivity color="#FFFFFF" size={24} />
+              <div className="brand-logo-emblem">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M12 2L20.5 6.8V17.2L12 22L3.5 17.2V6.8L12 2Z" 
+                    stroke="url(#emblemGradNav)" 
+                    strokeWidth="1.75" 
+                    strokeLinejoin="round" 
+                  />
+                  <path 
+                    d="M7 12H17M5.5 10.2V13.8M18.5 10.2V13.8M8.5 9.5V14.5M15.5 9.5V14.5" 
+                    stroke="#FFFFFF" 
+                    strokeWidth="1.75" 
+                    strokeLinecap="round" 
+                  />
+                  <circle cx="12" cy="12" r="1.75" fill="#38BDF8" />
+                  <defs>
+                    <linearGradient id="emblemGradNav" x1="3.5" y1="2" x2="20.5" y2="22" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#818CF8" />
+                      <stop offset="1" stopColor="#38BDF8" />
+                    </linearGradient>
+                  </defs>
+                </svg>
               </div>
-              <div>
-                <span className="brand-title text-white fs-4 fw-extrabold tracking-tight d-block leading-none">
-                  GYMKHANA
-                </span>
-                <span className="text-cyan small fw-semibold text-uppercase tracking-wider" style={{ fontSize: '0.65rem' }}>
-                  Fitness & Gym Ecosystem
-                </span>
-              </div>
+              <span className="brand-title-classic">GYMKHANA</span>
             </Link>
 
             {/* Right Controls: Sign In (Person Icon) & Navigation Menu (Three Dashes) */}
@@ -1899,17 +1904,30 @@ export const HomePage = () => {
             {/* Col 1: Brand */}
             <div className="col-12 col-lg-4">
               <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none mb-3">
-                <div
-                  className="d-flex align-items-center justify-content-center rounded-3 shadow"
-                  style={{
-                    width: '38px',
-                    height: '38px',
-                    background: 'linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)'
-                  }}
-                >
-                  <FiActivity color="#FFFFFF" size={20} />
+                <div className="brand-logo-emblem">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path 
+                      d="M12 2L20.5 6.8V17.2L12 22L3.5 17.2V6.8L12 2Z" 
+                      stroke="url(#emblemGradFooter)" 
+                      strokeWidth="1.75" 
+                      strokeLinejoin="round" 
+                    />
+                    <path 
+                      d="M7 12H17M5.5 10.2V13.8M18.5 10.2V13.8M8.5 9.5V14.5M15.5 9.5V14.5" 
+                      stroke="#FFFFFF" 
+                      strokeWidth="1.75" 
+                      strokeLinecap="round" 
+                    />
+                    <circle cx="12" cy="12" r="1.75" fill="#38BDF8" />
+                    <defs>
+                      <linearGradient id="emblemGradFooter" x1="3.5" y1="2" x2="20.5" y2="22" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#818CF8" />
+                        <stop offset="1" stopColor="#38BDF8" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
-                <span className="brand-title text-white fs-4 fw-extrabold tracking-tight">GYMKHANA</span>
+                <span className="brand-title-classic">GYMKHANA</span>
               </Link>
               <p className="text-muted small mb-3" style={{ maxWidth: '320px' }}>
                 The next-generation SaaS ecosystem for gym memberships, personal trainer coaching, macronutrient compliance, and biometric health analytics.
