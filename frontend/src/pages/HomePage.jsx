@@ -21,7 +21,8 @@ import {
   FiLogOut, 
   FiLayout, 
   FiHelpCircle,
-  FiMoreVertical
+  FiMenu,
+  FiX
 } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -415,7 +416,7 @@ export const HomePage = () => {
               </Link>
             )}
 
-            {/* Three-Dot Options Menu Button (Positioned Next Right to Sign In) */}
+            {/* Three-Dash (Menu) Options Button (Positioned Next Right to Sign In) */}
             <div className="position-relative" ref={dropdownRef}>
               <button
                 onClick={() => setNavDropdownOpen(!navDropdownOpen)}
@@ -426,7 +427,7 @@ export const HomePage = () => {
                 title="Navigation Menu"
                 style={{ width: '40px', height: '40px' }}
               >
-                <FiMoreVertical size={20} />
+                {navDropdownOpen ? <FiX size={20} /> : <FiMenu size={20} />}
               </button>
 
               {/* Three-Dot Dropdown Menu Popup */}
