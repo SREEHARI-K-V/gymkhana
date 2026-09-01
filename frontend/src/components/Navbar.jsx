@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { FiMenu, FiBell, FiUser } from 'react-icons/fi';
 
-export const Navbar = ({ toggleSidebar }) => {
+export const Navbar = ({ toggleSidebar, sidebarOpen }) => {
   const { user } = useAuth();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="glass-navbar sticky-top px-3 px-sm-4 py-2 py-sm-3 d-flex align-items-center justify-content-between">
+    <header className={`glass-navbar sticky-top px-3 px-sm-4 py-2 py-sm-3 d-flex align-items-center justify-content-between ${scrolled ? 'scrolled' : ''}`}>
       <div className="d-flex align-items-center gap-2 gap-sm-3 overflow-hidden">
         <button
           onClick={toggleSidebar}
-          className="btn btn-secondary-glass d-lg-none p-2 flex-shrink-0"
+          className="btn btn-secondary-glass p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0"
           aria-label="Toggle Navigation Menu"
+          title={sidebarOpen ? 'Collapse navigation menu' : 'Open navigation menu'}
         >
           <FiMenu size={20} />
         </button>
@@ -28,7 +38,7 @@ export const Navbar = ({ toggleSidebar }) => {
       <div className="d-flex align-items-center gap-2 gap-sm-3 flex-shrink-0">
         <div className="position-relative">
           <button 
-            className="btn btn-secondary-glass p-2 position-relative rounded-circle"
+            className="btn btn-secondary-glass p-2 position-relative rounded-circle d-inline-flex align-items-center justify-content-center"
             title="Notifications"
             aria-label="Notifications"
           >

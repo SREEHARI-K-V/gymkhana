@@ -13,14 +13,12 @@ export const AdminLayout = () => {
       setIsDesktop(desktop);
       if (!desktop && sidebarOpen) {
         setSidebarOpen(false);
-      } else if (desktop && !sidebarOpen) {
-        setSidebarOpen(true);
       }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [sidebarOpen]);
 
   return (
     <div className="d-flex min-vh-100 position-relative w-100 overflow-x-hidden">
@@ -37,7 +35,7 @@ export const AdminLayout = () => {
           minWidth: 0
         }}
       >
-        <Navbar toggleSidebar={() => setSidebarOpen(prev => !prev)} />
+        <Navbar toggleSidebar={() => setSidebarOpen(prev => !prev)} sidebarOpen={sidebarOpen} />
         <main className="p-3 p-sm-4 flex-grow-1 w-100" style={{ maxWidth: '1600px', margin: '0 auto' }}>
           <Outlet />
         </main>
