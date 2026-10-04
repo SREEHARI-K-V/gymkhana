@@ -17,7 +17,12 @@ import {
   FiMail,
   FiClock,
   FiSend,
-  FiArrowRight
+  FiArrowRight,
+  FiActivity,
+  FiPieChart,
+  FiTrendingUp,
+  FiCheckSquare,
+  FiShield
 } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -61,7 +66,8 @@ export const HomePage = () => {
 
   // Navigation menu items for dropdown
   const navMenuItems = [
-    { label: 'Membership Plans', href: '#pricing', icon: <FiAward size={16} className="text-primary" /> },
+    { label: 'Core Features', href: '#features', icon: <FiCheckCircle size={16} className="text-primary" /> },
+    { label: 'Membership Plans', href: '#pricing', icon: <FiAward size={16} className="text-info" /> },
     { label: 'Gym Branches', href: '#gyms', icon: <FiMapPin size={16} className="text-cyan" /> },
     { label: 'Member Reviews', href: '#reviews', icon: <FiStar size={16} className="text-warning" /> },
     { label: 'Contact Details', href: '#contact', icon: <FiPhone size={16} className="text-success" /> }
@@ -86,6 +92,58 @@ export const HomePage = () => {
     message: ''
   });
   const [contactSubmitting, setContactSubmitting] = useState(false);
+
+  // Core Features Brief Data
+  const platformFeatures = [
+    {
+      icon: FiMapPin,
+      color: '#38BDF8',
+      bg: 'rgba(56, 189, 248, 0.12)',
+      border: 'rgba(56, 189, 248, 0.25)',
+      title: "Multi-Center Gym Passes",
+      desc: "Reserve 90-minute training slots across 25+ verified gym branches with contactless digital QR code passes."
+    },
+    {
+      icon: FiActivity,
+      color: '#818CF8',
+      bg: 'rgba(129, 140, 248, 0.12)',
+      border: 'rgba(129, 140, 248, 0.25)',
+      title: "Coach-Crafted Routines",
+      desc: "Follow structured workout plans designed by certified personal trainers with exact sets, reps, and rest timers."
+    },
+    {
+      icon: FiPieChart,
+      color: '#34D399',
+      bg: 'rgba(52, 211, 153, 0.12)',
+      border: 'rgba(52, 211, 153, 0.25)',
+      title: "Precision Macro Nutrition",
+      desc: "Achieve specific goals with tailored daily calorie targets and protein, carbohydrate, and fat meal breakdowns."
+    },
+    {
+      icon: FiTrendingUp,
+      color: '#FBBF24',
+      bg: 'rgba(251, 191, 36, 0.12)',
+      border: 'rgba(251, 191, 36, 0.25)',
+      title: "Biometrics & BMI Tracking",
+      desc: "Monitor weight changes, body measurements, and BMI trajectory logs with visual analytics."
+    },
+    {
+      icon: FiCheckSquare,
+      color: '#F472B6',
+      bg: 'rgba(244, 114, 182, 0.12)',
+      border: 'rgba(244, 114, 182, 0.25)',
+      title: "Daily Habit Checklist",
+      desc: "Interactive daily checklist allowing members to mark exercises done and meals logged in real time."
+    },
+    {
+      icon: FiShield,
+      color: '#A78BFA',
+      bg: 'rgba(167, 139, 250, 0.12)',
+      border: 'rgba(167, 139, 250, 0.25)',
+      title: "Three Dedicated Portals",
+      desc: "Clean, role-tailored dashboards built specifically for Members, Coaches, and Gym Administrators."
+    }
+  ];
 
   // Gym Center Data
   const gymCenters = [
@@ -404,7 +462,7 @@ export const HomePage = () => {
 
         {/* Scroll Down to Explore Indicator */}
         <div className="text-center pb-3">
-          <a href="#pricing" className="scroll-indicator-btn" aria-label="Scroll to membership plans">
+          <a href="#features" className="scroll-indicator-btn" aria-label="Scroll to platform features">
             <span>Scroll to Explore</span>
             <div className="scroll-arrow-circle">
               <FiChevronDown size={18} />
@@ -414,7 +472,54 @@ export const HomePage = () => {
       </div>
 
       {/* =========================================================================
-          1. MEMBERSHIP PLANS
+          1. CORE PLATFORM FEATURES (BRIEF TEXT HIGHLIGHTS)
+          ========================================================================= */}
+      <section id="features" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25">
+        <div className="container py-lg-4">
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '750px' }}>
+            <span className="badge badge-active mb-2">PLATFORM CAPABILITIES</span>
+            <h2 className="display-6 fw-bold text-white mb-3">
+              Everything You Need in One Unified Platform
+            </h2>
+            <p className="text-muted lead fs-6">
+              A streamlined overview of the core features powering athletes, personal coaches, and gym facilities.
+            </p>
+          </div>
+
+          <div className="row g-3 g-md-4">
+            {platformFeatures.map((f, idx) => {
+              const Icon = f.icon;
+              return (
+                <div key={idx} className="col-12 col-md-6 col-lg-4">
+                  <div className="glass-card p-4 h-100 d-flex flex-column justify-content-between hover-lift">
+                    <div>
+                      <div
+                        className="rounded-3 d-inline-flex align-items-center justify-content-center mb-3"
+                        style={{
+                          width: '46px',
+                          height: '46px',
+                          background: f.bg,
+                          border: `1px solid ${f.border}`,
+                          color: f.color
+                        }}
+                      >
+                        <Icon size={22} />
+                      </div>
+                      <h5 className="text-white fw-bold mb-2">{f.title}</h5>
+                      <p className="text-muted small mb-0" style={{ lineHeight: 1.6 }}>
+                        {f.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          2. MEMBERSHIP PLANS
           ========================================================================= */}
       <section id="pricing" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25">
         <div className="container py-lg-4">
@@ -597,7 +702,7 @@ export const HomePage = () => {
       </section>
 
       {/* =========================================================================
-          2. GYM BRANCHES
+          3. GYM BRANCHES
           ========================================================================= */}
       <section id="gyms" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25">
         <div className="container py-lg-4">
@@ -681,7 +786,7 @@ export const HomePage = () => {
       </section>
 
       {/* =========================================================================
-          3. MEMBER REVIEWS & TESTIMONIALS
+          4. MEMBER REVIEWS & TESTIMONIALS
           ========================================================================= */}
       <section id="reviews" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25" style={{ background: 'rgba(15, 23, 42, 0.4)' }}>
         <div className="container py-lg-4">
@@ -730,7 +835,7 @@ export const HomePage = () => {
       </section>
 
       {/* =========================================================================
-          4. CONTACT DETAILS & INQUIRY HEADQUARTERS
+          5. CONTACT DETAILS & INQUIRY HEADQUARTERS
           ========================================================================= */}
       <section id="contact" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25">
         <div className="container py-lg-4">
@@ -963,6 +1068,7 @@ export const HomePage = () => {
             <div className="col-6 col-md-3 col-lg-2">
               <h6 className="text-white fw-bold mb-3 small text-uppercase tracking-wider">Explore</h6>
               <div className="d-flex flex-column gap-2">
+                <a href="#features" className="footer-nav-link">Core Features</a>
                 <a href="#pricing" className="footer-nav-link">Membership Plans</a>
                 <a href="#gyms" className="footer-nav-link">Gym Branches</a>
                 <a href="#reviews" className="footer-nav-link">Member Reviews</a>
