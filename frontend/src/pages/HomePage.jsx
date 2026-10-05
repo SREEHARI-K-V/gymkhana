@@ -22,10 +22,7 @@ import {
   FiPieChart,
   FiTrendingUp,
   FiCheckSquare,
-  FiShield,
-  FiGrid,
-  FiList,
-  FiCheck
+  FiShield
 } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -82,9 +79,6 @@ export const HomePage = () => {
 
   // Pricing billing toggle
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'annual'
-
-  // Plan display mode: 'cards' (2-column feature grid in cards) vs 'matrix' (side-by-side comparison grid)
-  const [planViewMode, setPlanViewMode] = useState('cards');
 
   // Gym center city filter
   const [selectedCity, setSelectedCity] = useState('ALL');
@@ -217,19 +211,6 @@ export const HomePage = () => {
         { text: 'VIP Lounge & Supplements', highlight: false }
       ]
     }
-  ];
-
-  // Comparison Matrix Data for Full Grid View
-  const comparisonMatrix = [
-    { name: 'Gym Locations Access', starter: '1 Single Gym', pro: '25+ Network Centers', elite: 'All Global Centers' },
-    { name: 'Digital Contactless QR Pass', starter: true, pro: true, elite: true },
-    { name: 'Personal Trainer Routine Builder', starter: false, pro: 'Assigned Coach', elite: 'Dedicated 1-on-1' },
-    { name: 'Macronutrient Nutrition Targets', starter: false, pro: true, elite: 'Weekly Customization' },
-    { name: 'Biometric & BMI Progress Analytics', starter: 'Basic Logs', pro: 'Interactive Charts', elite: 'Full Analytics + Export' },
-    { name: 'Sauna, Steam Room & Plunge', starter: false, pro: 'Sauna & Steam', elite: 'All Suites + Cold Plunge' },
-    { name: 'Priority Peak-Hour Slot Booking', starter: false, pro: true, elite: 'Guaranteed Priority' },
-    { name: 'Monthly VIP Guest Passes', starter: false, pro: false, elite: '2 Free Passes / mo' },
-    { name: 'VIP Lounge & Protein Bar Access', starter: false, pro: false, elite: true }
   ];
 
   // Gym Center Data
@@ -616,56 +597,32 @@ export const HomePage = () => {
               Membership Plans Designed for Every Goal
             </h2>
             <p className="text-muted lead fs-6 mb-4">
-              Flexible options with zero commitments. Compare tiers in our visual feature grid or detailed matrix below.
+              Flexible options with zero commitments. Choose the plan that fits your ambition.
             </p>
 
-            {/* Controls Bar: Billing Cycle & View Mode Switches */}
-            <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
-              {/* Monthly / Annual Billing Toggle */}
-              <div className="d-inline-flex align-items-center gap-2 p-1 glass-card-static rounded-pill">
-                <button
-                  type="button"
-                  onClick={() => setBillingCycle('monthly')}
-                  className={`btn btn-sm rounded-pill px-3 py-1 ${billingCycle === 'monthly' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
-                >
-                  Monthly
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBillingCycle('annual')}
-                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-1 ${billingCycle === 'annual' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
-                >
-                  <span>Annual</span>
-                  <span className="badge bg-success text-white rounded-pill px-2" style={{ fontSize: '0.65rem' }}>Save 20%</span>
-                </button>
-              </div>
-
-              {/* View Mode Toggle: Cards Grid vs Comparison Matrix */}
-              <div className="d-inline-flex align-items-center gap-1 p-1 glass-card-static rounded-pill">
-                <button
-                  type="button"
-                  onClick={() => setPlanViewMode('cards')}
-                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-2 ${planViewMode === 'cards' ? 'btn-cyan-gradient fw-bold' : 'text-muted'}`}
-                >
-                  <FiGrid size={14} />
-                  <span>Plan Grid</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPlanViewMode('matrix')}
-                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-2 ${planViewMode === 'matrix' ? 'btn-cyan-gradient fw-bold' : 'text-muted'}`}
-                >
-                  <FiList size={14} />
-                  <span>Comparison Matrix</span>
-                </button>
-              </div>
+            {/* Monthly / Annual Billing Toggle */}
+            <div className="d-inline-flex align-items-center gap-2 p-1 glass-card-static rounded-pill">
+              <button
+                type="button"
+                onClick={() => setBillingCycle('monthly')}
+                className={`btn btn-sm rounded-pill px-3 py-1 ${billingCycle === 'monthly' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
+              >
+                Monthly
+              </button>
+              <button
+                type="button"
+                onClick={() => setBillingCycle('annual')}
+                className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-1 ${billingCycle === 'annual' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
+              >
+                <span>Annual</span>
+                <span className="badge bg-success text-white rounded-pill px-2" style={{ fontSize: '0.65rem' }}>Save 20%</span>
+              </button>
             </div>
           </div>
 
-          {/* View 1: Visual Cards Grid with Internal 2-Column Feature Grids */}
-          {planViewMode === 'cards' && (
-            <div 
-              className="plans-cards-grid animate-fadeIn"
+          {/* Membership Plans Grid with Internal 2-Column Feature Grids */}
+          <div 
+            className="plans-cards-grid animate-fadeIn"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
@@ -746,82 +703,6 @@ export const HomePage = () => {
                 </div>
               ))}
             </div>
-          )}
-
-          {/* View 2: Full Matrix Comparison Grid */}
-          {planViewMode === 'matrix' && (
-            <div className="glass-card p-3 p-md-4 overflow-x-auto animate-fadeIn" style={{ borderRadius: '24px' }}>
-              <table className="table table-dark table-borderless align-middle mb-0" style={{ background: 'transparent' }}>
-                <thead>
-                  <tr className="border-bottom border-secondary border-opacity-50">
-                    <th style={{ minWidth: '220px', width: '34%' }} className="text-white py-3 fw-bold fs-6">
-                      Plan Inclusions & Features
-                    </th>
-                    <th style={{ minWidth: '150px' }} className="text-center py-3 text-white fw-bold">
-                      Starter Flex Pass
-                      <span className="d-block text-muted small fw-normal mt-1">$15 / day</span>
-                    </th>
-                    <th style={{ minWidth: '160px' }} className="text-center py-3 text-cyan fw-bold bg-primary bg-opacity-10 rounded-top">
-                      ⭐ Pro Performance
-                      <span className="d-block text-cyan small fw-normal mt-1">${billingCycle === 'annual' ? '39' : '49'} / mo</span>
-                    </th>
-                    <th style={{ minWidth: '160px' }} className="text-center py-3 text-white fw-bold">
-                      Elite VIP All-Access
-                      <span className="d-block text-muted small fw-normal mt-1">${billingCycle === 'annual' ? '69' : '89'} / mo</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonMatrix.map((row, idx) => (
-                    <tr key={idx} className="border-bottom border-secondary border-opacity-25">
-                      <td className="py-3 text-white fw-medium small">
-                        {row.name}
-                      </td>
-                      <td className="text-center py-3 text-muted small">
-                        {typeof row.starter === 'boolean' ? (
-                          row.starter ? <FiCheck className="text-success" size={18} /> : <span className="text-secondary opacity-50">—</span>
-                        ) : (
-                          <span>{row.starter}</span>
-                        )}
-                      </td>
-                      <td className="text-center py-3 bg-primary bg-opacity-10 text-white fw-semibold small">
-                        {typeof row.pro === 'boolean' ? (
-                          row.pro ? <FiCheck className="text-cyan" size={18} /> : <span className="text-secondary opacity-50">—</span>
-                        ) : (
-                          <span className="text-cyan">{row.pro}</span>
-                        )}
-                      </td>
-                      <td className="text-center py-3 text-white small">
-                        {typeof row.elite === 'boolean' ? (
-                          row.elite ? <FiCheck className="text-success" size={18} /> : <span className="text-secondary opacity-50">—</span>
-                        ) : (
-                          <span className="text-white fw-medium">{row.elite}</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td className="py-4"></td>
-                    <td className="text-center py-4">
-                      <Link to="/register" className="btn btn-secondary-glass btn-sm px-3 py-2 fw-semibold">
-                        Select Day Pass
-                      </Link>
-                    </td>
-                    <td className="text-center py-4 bg-primary bg-opacity-10 rounded-bottom">
-                      <Link to="/register" className="btn btn-primary-gradient btn-sm px-4 py-2 fw-bold shadow-lg">
-                        Choose Pro
-                      </Link>
-                    </td>
-                    <td className="text-center py-4">
-                      <Link to="/register" className="btn btn-secondary-glass btn-sm px-3 py-2 fw-semibold">
-                        Choose Elite
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </section>
 
