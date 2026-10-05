@@ -22,7 +22,10 @@ import {
   FiPieChart,
   FiTrendingUp,
   FiCheckSquare,
-  FiShield
+  FiShield,
+  FiGrid,
+  FiList,
+  FiCheck
 } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -79,6 +82,9 @@ export const HomePage = () => {
 
   // Pricing billing toggle
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'annual'
+
+  // Plan display mode: 'cards' (2-column feature grid in cards) vs 'matrix' (side-by-side comparison grid)
+  const [planViewMode, setPlanViewMode] = useState('cards');
 
   // Gym center city filter
   const [selectedCity, setSelectedCity] = useState('ALL');
@@ -143,6 +149,87 @@ export const HomePage = () => {
       title: "Three Dedicated Portals",
       desc: "Clean, role-tailored dashboards built specifically for Members, Coaches, and Gym Administrators."
     }
+  ];
+
+  // Membership Plans Data (Formatted for Grid presentation)
+  const membershipPlans = [
+    {
+      id: 'starter',
+      badge: 'SINGLE PASS',
+      badgeClass: 'badge-role',
+      title: 'Starter Flex Pass',
+      subtitle: 'Perfect for travelers, occasional lifters, and single sessions.',
+      priceMonthly: 15,
+      priceAnnual: 15,
+      period: '/ day pass',
+      featured: false,
+      ctaText: 'Select Day Pass',
+      ctaClass: 'btn btn-secondary-glass',
+      features: [
+        { text: 'Single-Day Access', highlight: true },
+        { text: 'Digital QR Entry Pass', highlight: true },
+        { text: 'Locker & Luxury Showers', highlight: false },
+        { text: 'Workout Routine Logging', highlight: false },
+        { text: 'Standard Gym Floor Gear', highlight: false },
+        { text: 'Free High-Speed WiFi', highlight: false }
+      ]
+    },
+    {
+      id: 'pro',
+      badge: 'RECOMMENDED ATHLETE TIER',
+      badgeClass: 'badge-active',
+      ribbon: '⭐ MOST POPULAR',
+      title: 'Pro Performance',
+      subtitle: 'Complete coaching, multi-center access, and full macro intelligence.',
+      priceMonthly: 49,
+      priceAnnual: 39,
+      period: '/ month',
+      featured: true,
+      ctaText: 'Get Started with Pro',
+      ctaClass: 'btn btn-primary-gradient shadow-lg',
+      features: [
+        { text: '25+ Gym Multi-Center', highlight: true },
+        { text: 'Trainer Routine Builder', highlight: true },
+        { text: 'Precision Macro Plans', highlight: true },
+        { text: 'Biometric & BMI Analytics', highlight: true },
+        { text: 'Priority Peak-Hour Slots', highlight: false },
+        { text: 'Sauna & Steam Amenities', highlight: false }
+      ]
+    },
+    {
+      id: 'elite',
+      badge: 'GLOBAL VIP',
+      badgeClass: 'badge-role',
+      title: 'Elite VIP All-Access',
+      subtitle: 'Ultimate luxury, unlimited plunge/sauna access, and dedicated 1-on-1 coaching.',
+      priceMonthly: 89,
+      priceAnnual: 69,
+      period: '/ month',
+      featured: false,
+      ctaText: 'Join Elite VIP',
+      ctaClass: 'btn btn-secondary-glass',
+      features: [
+        { text: 'Global All-Center Access', highlight: true },
+        { text: '1-on-1 Personal Coach', highlight: true },
+        { text: 'Sauna & Cold Plunge', highlight: true },
+        { text: 'Weekly Macro Adjusts', highlight: true },
+        { text: '2 Free VIP Guest Passes/mo', highlight: false },
+        { text: 'VIP Lounge & Supplements', highlight: false }
+      ]
+    }
+  ];
+
+  // Comparison Matrix Data for Full Grid View
+  const comparisonMatrix = [
+    { name: 'Gym Locations Access', starter: '1 Single Gym', pro: '25+ Network Centers', elite: 'All Global Centers' },
+    { name: 'Digital Contactless QR Pass', starter: true, pro: true, elite: true },
+    { name: 'Personal Trainer Routine Builder', starter: false, pro: 'Assigned Coach', elite: 'Dedicated 1-on-1' },
+    { name: 'Macronutrient Nutrition Targets', starter: false, pro: true, elite: 'Weekly Customization' },
+    { name: 'Biometric & BMI Progress Analytics', starter: 'Basic Logs', pro: 'Interactive Charts', elite: 'Full Analytics + Export' },
+    { name: 'Sauna, Steam Room & Plunge', starter: false, pro: 'Sauna & Steam', elite: 'All Suites + Cold Plunge' },
+    { name: 'Priority Peak-Hour Slot Booking', starter: false, pro: true, elite: 'Guaranteed Priority' },
+    { name: 'Monthly VIP Guest Passes', starter: false, pro: false, elite: '2 Free Passes / mo' },
+    { name: 'VIP Lounge & Protein Bar Access', starter: false, pro: false, elite: true }
   ];
 
   // Gym Center Data
@@ -519,185 +606,222 @@ export const HomePage = () => {
       </section>
 
       {/* =========================================================================
-          2. MEMBERSHIP PLANS
+          2. MEMBERSHIP PLANS (GRID PRESENTATION)
           ========================================================================= */}
       <section id="pricing" className="py-5 position-relative z-2 border-top border-secondary border-opacity-25">
         <div className="container py-lg-4">
-          <div className="text-center mx-auto mb-5" style={{ maxWidth: '750px' }}>
+          <div className="text-center mx-auto mb-5" style={{ maxWidth: '820px' }}>
             <span className="badge badge-active mb-2">TRANSPARENT VALUE</span>
             <h2 className="display-6 fw-bold text-white mb-3">
               Membership Plans Designed for Every Goal
             </h2>
             <p className="text-muted lead fs-6 mb-4">
-              Flexible options with no lock-in commitments. Upgrade, downgrade, or pause anytime.
+              Flexible options with zero commitments. Compare tiers in our visual feature grid or detailed matrix below.
             </p>
 
-            {/* Monthly / Annual Toggle */}
-            <div className="d-inline-flex align-items-center gap-3 p-2 glass-card-static rounded-pill">
-              <button
-                type="button"
-                onClick={() => setBillingCycle('monthly')}
-                className={`btn btn-sm rounded-pill px-3 py-1 ${billingCycle === 'monthly' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
-              >
-                Monthly Billing
-              </button>
-              <button
-                type="button"
-                onClick={() => setBillingCycle('annual')}
-                className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-1 ${billingCycle === 'annual' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
-              >
-                <span>Annual Billing</span>
-                <span className="badge bg-success text-white rounded-pill px-2" style={{ fontSize: '0.65rem' }}>Save 20%</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="row g-4 align-items-stretch">
-            {/* Starter Plan */}
-            <div className="col-12 col-lg-4">
-              <div className="glass-card p-4 p-lg-5 h-100 d-flex flex-column justify-content-between">
-                <div>
-                  <span className="badge badge-role mb-3">SINGLE ACCESS</span>
-                  <h3 className="text-white fw-bold mb-1">Starter Flex Pass</h3>
-                  <p className="text-muted small mb-4">Perfect for travelers, occasional lifters, and weekend sessions.</p>
-
-                  <div className="d-flex align-items-baseline gap-1 mb-4">
-                    <h2 className="display-5 fw-extrabold text-white mb-0">$15</h2>
-                    <span className="text-muted">/ day pass</span>
-                  </div>
-
-                  <ul className="list-unstyled d-flex flex-column gap-3 text-muted small mb-0">
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Full single-day gym floor access</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Digital QR entry pass</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span>Locker & luxury shower amenities</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span>Basic workout checklist logging</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <Link
-                    to="/register"
-                    className="btn btn-secondary-glass w-100 py-3 fw-bold"
-                  >
-                    Select Day Pass
-                  </Link>
-                </div>
+            {/* Controls Bar: Billing Cycle & View Mode Switches */}
+            <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
+              {/* Monthly / Annual Billing Toggle */}
+              <div className="d-inline-flex align-items-center gap-2 p-1 glass-card-static rounded-pill">
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`btn btn-sm rounded-pill px-3 py-1 ${billingCycle === 'monthly' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
+                >
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('annual')}
+                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-1 ${billingCycle === 'annual' ? 'btn-primary-gradient fw-bold' : 'text-muted'}`}
+                >
+                  <span>Annual</span>
+                  <span className="badge bg-success text-white rounded-pill px-2" style={{ fontSize: '0.65rem' }}>Save 20%</span>
+                </button>
               </div>
-            </div>
 
-            {/* Pro Plan (Featured) */}
-            <div className="col-12 col-lg-4">
-              <div className="glass-card pricing-card-featured p-4 p-lg-5 h-100 d-flex flex-column justify-content-between position-relative">
-                <span className="pricing-ribbon">⭐ MOST POPULAR</span>
-                <div>
-                  <span className="badge badge-active mb-3">RECOMMENDED ATHLETE TIER</span>
-                  <h3 className="text-white fw-bold mb-1">Pro Performance</h3>
-                  <p className="text-muted small mb-4">Complete coaching, multi-center access, and full macro intelligence.</p>
-
-                  <div className="d-flex align-items-baseline gap-1 mb-4">
-                    <h2 className="display-5 fw-extrabold text-cyan mb-0">
-                      ${billingCycle === 'annual' ? '39' : '49'}
-                    </h2>
-                    <span className="text-muted">/ month</span>
-                  </div>
-
-                  <ul className="list-unstyled d-flex flex-column gap-3 text-muted small mb-0">
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <strong className="text-white">Multi-Center Access across 25+ Gyms</strong>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <strong className="text-white">Personal Trainer Matching & Routine Builder</strong>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Macronutrient Target Tracker & Meal Guides</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Biometric Progress & BMI Trends</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span>Priority peak-hour slot reservations</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <Link
-                    to="/register"
-                    className="btn btn-primary-gradient w-100 py-3 fw-bold shadow-lg"
-                  >
-                    Get Started with Pro
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Elite Plan */}
-            <div className="col-12 col-lg-4">
-              <div className="glass-card p-4 p-lg-5 h-100 d-flex flex-column justify-content-between">
-                <div>
-                  <span className="badge badge-role mb-3">GLOBAL VIP</span>
-                  <h3 className="text-white fw-bold mb-1">Elite VIP All-Access</h3>
-                  <p className="text-muted small mb-4">Ultimate luxury, unlimited plunge/sauna access, and dedicated 1-on-1 coaching.</p>
-
-                  <div className="d-flex align-items-baseline gap-1 mb-4">
-                    <h2 className="display-5 fw-extrabold text-white mb-0">
-                      ${billingCycle === 'annual' ? '69' : '89'}
-                    </h2>
-                    <span className="text-muted">/ month</span>
-                  </div>
-
-                  <ul className="list-unstyled d-flex flex-column gap-3 text-muted small mb-0">
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Unlimited Global All-Center Gym Access</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Dedicated 1-on-1 Personal Trainer Coaching</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Sauna, Steam Room & Cold Plunge Suites</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">Weekly Nutrition & Macro Customization</span>
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <FiCheckCircle className="text-success" size={16} />
-                      <span className="text-white">VIP Guest Passes (2 per month)</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="mt-5">
-                  <Link
-                    to="/register"
-                    className="btn btn-secondary-glass w-100 py-3 fw-bold"
-                  >
-                    Join Elite VIP
-                  </Link>
-                </div>
+              {/* View Mode Toggle: Cards Grid vs Comparison Matrix */}
+              <div className="d-inline-flex align-items-center gap-1 p-1 glass-card-static rounded-pill">
+                <button
+                  type="button"
+                  onClick={() => setPlanViewMode('cards')}
+                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-2 ${planViewMode === 'cards' ? 'btn-cyan-gradient fw-bold' : 'text-muted'}`}
+                >
+                  <FiGrid size={14} />
+                  <span>Plan Grid</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPlanViewMode('matrix')}
+                  className={`btn btn-sm rounded-pill px-3 py-1 d-flex align-items-center gap-2 ${planViewMode === 'matrix' ? 'btn-cyan-gradient fw-bold' : 'text-muted'}`}
+                >
+                  <FiList size={14} />
+                  <span>Comparison Matrix</span>
+                </button>
               </div>
             </div>
           </div>
+
+          {/* View 1: Visual Cards Grid with Internal 2-Column Feature Grids */}
+          {planViewMode === 'cards' && (
+            <div 
+              className="plans-cards-grid animate-fadeIn"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                gap: '1.5rem',
+                alignItems: 'stretch'
+              }}
+            >
+              {membershipPlans.map((plan) => (
+                <div 
+                  key={plan.id}
+                  className={`glass-card p-4 p-xl-5 h-100 d-flex flex-column justify-content-between position-relative hover-lift ${
+                    plan.featured ? 'pricing-card-featured border-primary' : ''
+                  }`}
+                  style={{
+                    borderRadius: '24px',
+                    borderColor: plan.featured ? 'rgba(79, 70, 229, 0.5)' : undefined
+                  }}
+                >
+                  {plan.ribbon && (
+                    <span className="pricing-ribbon">{plan.ribbon}</span>
+                  )}
+
+                  <div>
+                    <span className={`badge ${plan.badgeClass} mb-3`}>{plan.badge}</span>
+                    <h3 className="text-white fw-bold mb-1">{plan.title}</h3>
+                    <p className="text-muted small mb-4">{plan.subtitle}</p>
+
+                    <div className="d-flex align-items-baseline gap-1 mb-4">
+                      <h2 className={`display-5 fw-extrabold mb-0 ${plan.featured ? 'text-cyan' : 'text-white'}`}>
+                        ${billingCycle === 'annual' ? plan.priceAnnual : plan.priceMonthly}
+                      </h2>
+                      <span className="text-muted">{plan.period}</span>
+                    </div>
+
+                    {/* Features Displayed as a Visual 2-Column Grid (Not a bullet list!) */}
+                    <div 
+                      className="plan-features-grid mb-4"
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(2, 1fr)',
+                        gap: '0.65rem'
+                      }}
+                    >
+                      {plan.features.map((feat, fIdx) => (
+                        <div
+                          key={fIdx}
+                          className="p-2 rounded-3 d-flex align-items-start gap-2"
+                          style={{
+                            background: feat.highlight ? 'rgba(79, 70, 229, 0.12)' : 'rgba(255, 255, 255, 0.03)',
+                            border: feat.highlight ? '1px solid rgba(129, 140, 248, 0.25)' : '1px solid rgba(255, 255, 255, 0.06)',
+                            minHeight: '48px'
+                          }}
+                        >
+                          <FiCheckCircle 
+                            className={feat.highlight ? 'text-cyan flex-shrink-0 mt-1' : 'text-success flex-shrink-0 mt-1'} 
+                            size={14} 
+                          />
+                          <span 
+                            className={feat.highlight ? 'text-white fw-semibold small' : 'text-muted small'}
+                            style={{ fontSize: '0.78rem', lineHeight: 1.35 }}
+                          >
+                            {feat.text}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <Link
+                      to="/register"
+                      className={`${plan.ctaClass} w-100 py-3 fw-bold text-center text-decoration-none d-block`}
+                      style={{ borderRadius: '12px' }}
+                    >
+                      {plan.ctaText}
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* View 2: Full Matrix Comparison Grid */}
+          {planViewMode === 'matrix' && (
+            <div className="glass-card p-3 p-md-4 overflow-x-auto animate-fadeIn" style={{ borderRadius: '24px' }}>
+              <table className="table table-dark table-borderless align-middle mb-0" style={{ background: 'transparent' }}>
+                <thead>
+                  <tr className="border-bottom border-secondary border-opacity-50">
+                    <th style={{ minWidth: '220px', width: '34%' }} className="text-white py-3 fw-bold fs-6">
+                      Plan Inclusions & Features
+                    </th>
+                    <th style={{ minWidth: '150px' }} className="text-center py-3 text-white fw-bold">
+                      Starter Flex Pass
+                      <span className="d-block text-muted small fw-normal mt-1">$15 / day</span>
+                    </th>
+                    <th style={{ minWidth: '160px' }} className="text-center py-3 text-cyan fw-bold bg-primary bg-opacity-10 rounded-top">
+                      ⭐ Pro Performance
+                      <span className="d-block text-cyan small fw-normal mt-1">${billingCycle === 'annual' ? '39' : '49'} / mo</span>
+                    </th>
+                    <th style={{ minWidth: '160px' }} className="text-center py-3 text-white fw-bold">
+                      Elite VIP All-Access
+                      <span className="d-block text-muted small fw-normal mt-1">${billingCycle === 'annual' ? '69' : '89'} / mo</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonMatrix.map((row, idx) => (
+                    <tr key={idx} className="border-bottom border-secondary border-opacity-25">
+                      <td className="py-3 text-white fw-medium small">
+                        {row.name}
+                      </td>
+                      <td className="text-center py-3 text-muted small">
+                        {typeof row.starter === 'boolean' ? (
+                          row.starter ? <FiCheck className="text-success" size={18} /> : <span className="text-secondary opacity-50">—</span>
+                        ) : (
+                          <span>{row.starter}</span>
+                        )}
+                      </td>
+                      <td className="text-center py-3 bg-primary bg-opacity-10 text-white fw-semibold small">
+                        {typeof row.pro === 'boolean' ? (
+                          row.pro ? <FiCheck className="text-cyan" size={18} /> : <span className="text-secondary opacity-50">—</span>
+                        ) : (
+                          <span className="text-cyan">{row.pro}</span>
+                        )}
+                      </td>
+                      <td className="text-center py-3 text-white small">
+                        {typeof row.elite === 'boolean' ? (
+                          row.elite ? <FiCheck className="text-success" size={18} /> : <span className="text-secondary opacity-50">—</span>
+                        ) : (
+                          <span className="text-white fw-medium">{row.elite}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td className="py-4"></td>
+                    <td className="text-center py-4">
+                      <Link to="/register" className="btn btn-secondary-glass btn-sm px-3 py-2 fw-semibold">
+                        Select Day Pass
+                      </Link>
+                    </td>
+                    <td className="text-center py-4 bg-primary bg-opacity-10 rounded-bottom">
+                      <Link to="/register" className="btn btn-primary-gradient btn-sm px-4 py-2 fw-bold shadow-lg">
+                        Choose Pro
+                      </Link>
+                    </td>
+                    <td className="text-center py-4">
+                      <Link to="/register" className="btn btn-secondary-glass btn-sm px-3 py-2 fw-semibold">
+                        Choose Elite
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </section>
 
