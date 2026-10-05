@@ -30,12 +30,18 @@ import { MemberProgressView } from './pages/trainer/MemberProgressView';
 
 // Member Pages
 import { MemberDashboard } from './pages/member/MemberDashboard';
-import { GymsBooking } from './pages/member/GymsBooking';
-import { DailyTracker } from './pages/member/DailyTracker';
-import { MySubscription } from './pages/member/MySubscription';
+import { MemberProfile } from './pages/member/MemberProfile';
+import { MembershipRenewal } from './pages/member/MembershipRenewal';
+import { PaymentHistory } from './pages/member/PaymentHistory';
 import { WorkoutPlanView } from './pages/member/WorkoutPlanView';
+import { AIWorkoutFinder } from './pages/member/AIWorkoutFinder';
 import { DietPlanView } from './pages/member/DietPlanView';
 import { ProgressTracker } from './pages/member/ProgressTracker';
+import { GymBranches } from './pages/member/GymBranches';
+import { FeedbackReviews } from './pages/member/FeedbackReviews';
+import { MemberNotifications } from './pages/member/MemberNotifications';
+import { DailyTracker } from './pages/member/DailyTracker';
+import { GymsBooking } from './pages/member/GymsBooking';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -117,12 +123,20 @@ export default function App() {
               }
             >
               <Route index element={<MemberDashboard />} />
-              <Route path="gyms" element={<GymsBooking />} />
-              <Route path="tracker" element={<DailyTracker />} />
-              <Route path="subscription" element={<MySubscription />} />
+              <Route path="dashboard" element={<MemberDashboard />} />
+              <Route path="profile" element={<MemberProfile />} />
+              <Route path="membership" element={<MembershipRenewal />} />
+              <Route path="subscription" element={<MembershipRenewal />} />
+              <Route path="payments" element={<PaymentHistory />} />
               <Route path="workout" element={<WorkoutPlanView />} />
+              <Route path="ai-workout-finder" element={<AIWorkoutFinder />} />
               <Route path="diet" element={<DietPlanView />} />
               <Route path="progress" element={<ProgressTracker />} />
+              <Route path="branches" element={<GymBranches />} />
+              <Route path="gyms" element={<GymBranches />} />
+              <Route path="feedback" element={<FeedbackReviews />} />
+              <Route path="notifications" element={<MemberNotifications />} />
+              <Route path="tracker" element={<DailyTracker />} />
             </Route>
 
             {/* Fallback */}

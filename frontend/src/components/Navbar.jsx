@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { FiMenu, FiBell, FiUser } from 'react-icons/fi';
 
 export const Navbar = ({ toggleSidebar, sidebarOpen }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -38,6 +40,9 @@ export const Navbar = ({ toggleSidebar, sidebarOpen }) => {
       <div className="d-flex align-items-center gap-2 gap-sm-3 flex-shrink-0">
         <div className="position-relative">
           <button 
+            onClick={() => {
+              if (user?.role === 'MEMBER') navigate('/member/notifications');
+            }}
             className="btn btn-secondary-glass p-2 position-relative rounded-circle d-inline-flex align-items-center justify-content-center"
             title="Notifications"
             aria-label="Notifications"

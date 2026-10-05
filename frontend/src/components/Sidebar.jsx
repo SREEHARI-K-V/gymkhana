@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { 
   FiGrid, FiUsers, FiUserCheck, FiCreditCard, FiActivity, 
-  FiPieChart, FiFolder, FiLogOut, FiCalendar, FiTarget, FiMapPin, FiX 
+  FiPieChart, FiFolder, FiLogOut, FiCalendar, FiTarget, FiMapPin, FiX,
+  FiUser, FiDollarSign, FiZap, FiTrendingUp, FiStar, FiBell
 } from 'react-icons/fi';
 
 export const Sidebar = ({ isOpen, toggleSidebar, closeSidebar }) => {
@@ -28,13 +29,17 @@ export const Sidebar = ({ isOpen, toggleSidebar, closeSidebar }) => {
   ];
 
   const memberLinks = [
-    { to: '/member', label: 'My Dashboard', icon: FiGrid },
-    { to: '/member/gyms', label: 'Gym Centers & Booking', icon: FiMapPin },
-    { to: '/member/tracker', label: "Today's Checklist", icon: FiCalendar },
-    { to: '/member/subscription', label: 'My Subscription', icon: FiCreditCard },
-    { to: '/member/workout', label: 'Workout Routine', icon: FiActivity },
+    { to: '/member', label: 'Dashboard', icon: FiGrid },
+    { to: '/member/profile', label: 'My Profile', icon: FiUser },
+    { to: '/member/membership', label: 'Membership & Renewal', icon: FiCreditCard },
+    { to: '/member/payments', label: 'Payment History', icon: FiDollarSign },
+    { to: '/member/workout', label: 'Workout Plan', icon: FiActivity },
+    { to: '/member/ai-workout-finder', label: 'AI Workout Finder', icon: FiZap },
     { to: '/member/diet', label: 'Diet Plan', icon: FiPieChart },
-    { to: '/member/progress', label: 'Body Progress Logs', icon: FiTarget },
+    { to: '/member/progress', label: 'Fitness Progress', icon: FiTrendingUp },
+    { to: '/member/branches', label: 'Gym Branches', icon: FiMapPin },
+    { to: '/member/feedback', label: 'Feedback & Reviews', icon: FiStar },
+    { to: '/member/notifications', label: 'Notifications', icon: FiBell },
   ];
 
   const links = role === 'ADMIN' ? adminLinks : role === 'TRAINER' ? trainerLinks : memberLinks;

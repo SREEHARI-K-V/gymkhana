@@ -7,7 +7,9 @@ import { ProgressAnalyticsChart } from '../../components/ProgressAnalyticsChart'
 import { GymDetailsModal } from '../../components/GymDetailsModal';
 import { 
   FiCalendar, FiClock, FiActivity, FiPieChart, FiCheckSquare, 
-  FiArrowRight, FiMapPin, FiNavigation, FiDollarSign, FiStar, FiCheckCircle, FiGrid, FiPhone, FiLayers
+  FiArrowRight, FiMapPin, FiNavigation, FiDollarSign, FiStar, 
+  FiCheckCircle, FiGrid, FiPhone, FiUser, FiCreditCard, 
+  FiZap, FiTrendingUp, FiBell, FiShield, FiFileText, FiMessageSquare
 } from 'react-icons/fi';
 
 export const MemberDashboard = () => {
@@ -30,48 +32,286 @@ export const MemberDashboard = () => {
   const progressSummary = data?.progress_summary || {};
   const activeBookings = data?.active_bookings || [];
   const gyms = data?.gyms || [];
+  const notificationsCount = data?.notifications_count || 0;
+  const recentNotifications = data?.recent_notifications || [];
 
   const handleOpenGymModal = (gym = null, tab = 'OVERVIEW') => {
     setActiveGymModal(gym || gyms[0] || null);
     setModalTab(tab);
   };
 
+  // 11 Core Member Features Definition
+  const memberFeatures = [
+    {
+      id: 'dashboard',
+      title: 'Dashboard',
+      desc: 'Central command with daily fitness routines, active passes & health stats.',
+      icon: FiGrid,
+      color: '#6366F1',
+      badge: 'Live Overview',
+      route: '/member',
+      isCurrent: true
+    },
+    {
+      id: 'profile',
+      title: 'My Profile',
+      desc: 'Biometrics, emergency contact, coach assignment & digital member ID card.',
+      icon: FiUser,
+      color: '#06B6D4',
+      badge: member.member_code || 'GK-MEM-1049',
+      route: '/member/profile'
+    },
+    {
+      id: 'membership',
+      title: 'Membership & Renewal',
+      desc: 'Current plan status, renewal options, upgrade tiers & access perks.',
+      icon: FiCreditCard,
+      color: '#10B981',
+      badge: `${subscription.days_remaining || 0} Days Left`,
+      route: '/member/membership'
+    },
+    {
+      id: 'payments',
+      title: 'Payment History',
+      desc: 'Transaction receipts, tax invoices, payment methods & lifetime billing logs.',
+      icon: FiDollarSign,
+      color: '#F59E0B',
+      badge: 'Verified Invoices',
+      route: '/member/payments'
+    },
+    {
+      id: 'workout',
+      title: 'Workout Plan',
+      desc: 'Personalized 7-day routine, exercise instructions, sets, reps & rest timers.',
+      icon: FiActivity,
+      color: '#8B5CF6',
+      badge: `${todaysExercises.length} Exercises Today`,
+      route: '/member/workout'
+    },
+    {
+      id: 'ai-workout-finder',
+      title: 'AI Workout Finder',
+      desc: 'Dynamic AI routine synthesis matching equipment, intensity, focus & duration.',
+      icon: FiZap,
+      color: '#EC4899',
+      badge: 'AI v2.4 Engine',
+      route: '/member/ai-workout-finder'
+    },
+    {
+      id: 'diet',
+      title: 'Diet Plan',
+      desc: 'Target calorie metrics, macronutrient split (P/C/F) & scheduled meals.',
+      icon: FiPieChart,
+      color: '#22C55E',
+      badge: `${todaysMeals.length} Meals Logged`,
+      route: '/member/diet'
+    },
+    {
+      id: 'progress',
+      title: 'Fitness Progress',
+      desc: 'Weight & BMI analytics charts, circumference measurements & goal history.',
+      icon: FiTrendingUp,
+      color: '#3B82F6',
+      badge: 'Analytics Active',
+      route: '/member/progress'
+    },
+    {
+      id: 'branches',
+      title: 'Gym Branches',
+      desc: 'Multi-city facility network, equipment zones, operating hours & slot booking.',
+      icon: FiMapPin,
+      color: '#14B8A6',
+      badge: `${gyms.length} Centers Open`,
+      route: '/member/branches'
+    },
+    {
+      id: 'feedback',
+      title: 'Feedback & Reviews',
+      desc: 'Community athlete reviews, facility ratings & direct feedback to coaches.',
+      icon: FiStar,
+      color: '#EAB308',
+      badge: '4.9 ★ Community',
+      route: '/member/feedback'
+    },
+    {
+      id: 'notifications',
+      title: 'Notifications',
+      desc: 'Instant updates on workout tweaks, subscription expiry alerts & slot passes.',
+      icon: FiBell,
+      color: '#F43F5E',
+      badge: `${notificationsCount} New Alerts`,
+      route: '/member/notifications'
+    }
+  ];
+
   return (
     <div className="d-flex flex-column gap-4">
       {/* Header Banner */}
-      <div className="glass-card p-3 p-sm-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 position-relative overflow-hidden">
+      <div className="glass-card p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 position-relative overflow-hidden">
         <div>
-          <span className="badge badge-active mb-2">Member Portal</span>
+          <div className="d-flex align-items-center gap-2 mb-2">
+            <span className="badge badge-active">Member Portal</span>
+            {notificationsCount > 0 && (
+              <span 
+                onClick={() => navigate('/member/notifications')}
+                className="badge bg-danger text-white cursor-pointer d-flex align-items-center gap-1"
+                style={{ cursor: 'pointer' }}
+              >
+                <FiBell size={12} /> {notificationsCount} Alerts
+              </span>
+            )}
+          </div>
           <h3 className="text-white font-weight-bold mb-1">Welcome back, {member.full_name}! 👋</h3>
-          <p className="text-muted mb-0">Today is <strong className="text-cyan">{todayDay}</strong>. Let's conquer your workout and nutrition goals!</p>
+          <p className="text-muted mb-0">Today is <strong className="text-cyan">{todayDay}</strong>. Your membership is active and all features are ready.</p>
         </div>
-        <button
-          onClick={() => navigate('/member/tracker')}
-          className="btn btn-primary-gradient d-flex align-items-center justify-content-center gap-2 flex-shrink-0"
-        >
-          <FiCheckSquare size={18} />
-          <span>Open Today's Checklist</span>
-        </button>
+
+        <div className="d-flex flex-wrap gap-2 align-self-start align-self-md-center">
+          <button
+            onClick={() => navigate('/member/ai-workout-finder')}
+            className="btn btn-secondary-glass d-flex align-items-center gap-2"
+          >
+            <FiZap size={16} className="text-cyan" />
+            <span>AI Workout Finder</span>
+          </button>
+          <button
+            onClick={() => navigate('/member/tracker')}
+            className="btn btn-primary-gradient d-flex align-items-center gap-2"
+          >
+            <FiCheckSquare size={16} />
+            <span>Today's Checklist</span>
+          </button>
+        </div>
       </div>
 
-      {/* Gym Centers & Slot Booking Highlight - Located First */}
+      {/* Feature Showcase Grid (All 11 Features) */}
+      <div className="glass-card-static p-4 border border-primary border-opacity-25">
+        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-3">
+          <div>
+            <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
+              <FiShield className="text-cyan" /> Member Features Hub
+            </h4>
+            <p className="text-muted small mb-0">Access all 11 core member tools, workouts, billing, and gym facilities.</p>
+          </div>
+          <span className="badge badge-role align-self-start align-self-md-center">11 Features Available</span>
+        </div>
+
+        <div className="row g-3">
+          {memberFeatures.map((feat) => {
+            const Icon = feat.icon;
+            return (
+              <div key={feat.id} className="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div 
+                  onClick={() => navigate(feat.route)}
+                  className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between border border-secondary border-opacity-25 hover-lift transition-all cursor-pointer"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div>
+                    <div className="d-flex align-items-center justify-content-between mb-3">
+                      <div 
+                        className="rounded-3 p-2 d-flex align-items-center justify-content-center text-white shadow-sm"
+                        style={{ backgroundColor: `${feat.color}25`, border: `1px solid ${feat.color}50` }}
+                      >
+                        <Icon size={20} style={{ color: feat.color }} />
+                      </div>
+                      <span className="badge badge-role" style={{ fontSize: '0.68rem' }}>
+                        {feat.badge}
+                      </span>
+                    </div>
+
+                    <h6 className="text-white font-weight-bold mb-1">{feat.title}</h6>
+                    <p className="text-muted small mb-3" style={{ fontSize: '0.8rem', lineHeight: '1.4' }}>
+                      {feat.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+                    <span className="text-cyan small fw-semibold" style={{ fontSize: '0.78rem' }}>
+                      {feat.isCurrent ? 'Viewing Now' : 'Launch Feature'}
+                    </span>
+                    <FiArrowRight size={14} className="text-cyan" />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Subscription Status & Quick Metric Cards */}
+      <div className="row g-3">
+        <div className="col-12 col-sm-6 col-lg-4">
+          <div className="glass-card-static p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <span className="text-muted text-uppercase fw-semibold" style={{ fontSize: '0.78rem' }}>
+                Subscription Plan Status
+              </span>
+              <h3 className="text-white font-weight-bold mt-2 mb-1">{subscription.plan_title || 'Pro Performance Plan'}</h3>
+              <div className="mt-2 mb-3">
+                {subscription.status === 'ACTIVE' && (
+                  <span className="badge badge-status badge-active">ACTIVE MEMBER</span>
+                )}
+                {subscription.status === 'EXPIRING_SOON' && (
+                  <span className="badge badge-status badge-expiring">EXPIRING SOON</span>
+                )}
+                {(!subscription.status || subscription.status === 'EXPIRED') && (
+                  <span className="badge badge-status badge-expired">EXPIRED</span>
+                )}
+              </div>
+            </div>
+            <div className="pt-3 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+              <span className="text-muted small">
+                <FiClock className="me-1 text-cyan" />
+                {subscription.days_remaining || 0} Days Remaining
+              </span>
+              <button
+                onClick={() => navigate('/member/membership')}
+                className="btn btn-link text-cyan p-0 small fw-bold text-decoration-none"
+              >
+                Renew Plan →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-6 col-lg-4">
+          <StatCard
+            title="Today's Workout Target"
+            value={`${todaysExercises.length} Exercises`}
+            icon={FiActivity}
+            color="#4F46E5"
+            subtitle={`Scheduled for ${todayDay}`}
+          />
+        </div>
+
+        <div className="col-12 col-sm-12 col-lg-4">
+          <StatCard
+            title="Today's Meal Routine"
+            value={`${todaysMeals.length} Meals`}
+            icon={FiPieChart}
+            color="#22C55E"
+            subtitle={`Scheduled for ${todayDay}`}
+          />
+        </div>
+      </div>
+
+      {/* Gym Centers & Active Entry Passes */}
       <div className="glass-card-static p-3 p-sm-4 border border-primary border-opacity-25">
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div>
             <h4 className="text-white font-weight-bold mb-1 d-flex align-items-center gap-2">
-              <FiMapPin className="text-cyan" /> Gym Centers & Slot Booking
+              <FiMapPin className="text-cyan" /> Gym Branches & Slot Passes
             </h4>
-            <p className="text-muted small mb-0">Explore Gymkhana locations, view place details, membership plans & available time slots.</p>
+            <p className="text-muted small mb-0">Explore locations, reserve time slots, and access digital check-in passes.</p>
           </div>
           <button
-            onClick={() => handleOpenGymModal(gyms[0], 'ALL_CENTERS')}
+            onClick={() => navigate('/member/branches')}
             className="btn btn-secondary-glass btn-sm text-nowrap align-self-start align-self-md-center"
           >
-            All Centers ({gyms.length}) →
+            All Branches ({gyms.length}) →
           </button>
         </div>
 
-        {/* Active Gym Passes Banner if available */}
+        {/* Active Gym Passes Banner */}
         {activeBookings.length > 0 && (
           <div className="glass-card p-3 rounded-3 mb-4 border border-success border-opacity-50 bg-success bg-opacity-10">
             <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -101,7 +341,6 @@ export const MemberDashboard = () => {
             <div key={gym.id} className="col-12 col-md-6 col-lg-4">
               <div className="glass-card p-3 rounded-3 h-100 d-flex flex-column justify-content-between border border-secondary border-opacity-25 hover-lift">
                 <div>
-                  {/* Gym City & Rating Header */}
                   <div className="d-flex align-items-center justify-content-between mb-2">
                     <span className="badge badge-active">📍 {gym.city}</span>
                     <small className="text-warning fw-bold d-flex align-items-center gap-1">
@@ -109,19 +348,15 @@ export const MemberDashboard = () => {
                     </small>
                   </div>
                   
-                  {/* Gym Name & Place */}
                   <h6 className="text-white font-weight-bold mb-1">{gym.name}</h6>
                   <p className="text-cyan small mb-1 fw-semibold" style={{ fontSize: '0.82rem' }}>
-                    <FiNavigation className="me-1" size={12} />
-                    Place: {gym.place || gym.address}
+                    <FiNavigation className="me-1" size={12} /> Place: {gym.place || gym.address}
                   </p>
                   
                   <small className="text-muted d-block mb-2 text-truncate">
-                    <FiMapPin size={11} className="me-1" />
-                    {gym.address} {gym.landmark && `• (${gym.landmark})`}
+                    <FiMapPin size={11} className="me-1" /> {gym.address}
                   </small>
 
-                  {/* Hours & Contact */}
                   <div className="d-flex flex-wrap align-items-center gap-2 text-muted small mb-2 glass-card-static p-2 rounded-2" style={{ fontSize: '0.75rem' }}>
                     <span className="d-flex align-items-center gap-1 text-truncate">
                       <FiClock size={11} className="text-cyan" /> {gym.operating_hours}
@@ -130,60 +365,6 @@ export const MemberDashboard = () => {
                       <FiPhone size={11} className="text-cyan" /> {gym.phone}
                     </span>
                   </div>
-
-                  {/* Plans & Pricing Badges */}
-                  {gym.plans && gym.plans.length > 0 && (
-                    <div className="mb-2">
-                      <small className="text-white d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>
-                        <FiDollarSign size={11} className="text-success me-1" />
-                        Membership Plans:
-                      </small>
-                      <div className="d-flex flex-wrap gap-1">
-                        {gym.plans.map((p, pIdx) => (
-                          <span 
-                            key={pIdx} 
-                            className="badge bg-dark border border-primary border-opacity-25 text-white" 
-                            style={{ fontSize: '0.68rem' }}
-                          >
-                            {p.title}: <strong className="text-cyan">${p.price}</strong>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Available Time Slots */}
-                  {gym.available_slots && (
-                    <div className="mb-2">
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>Available Time Slots:</small>
-                      <div className="d-flex flex-wrap gap-1">
-                        {gym.available_slots.slice(0, 3).map((s, sIdx) => (
-                          <span key={sIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
-                            🕒 {s.split(' - ')[0]}
-                          </span>
-                        ))}
-                        {gym.available_slots.length > 3 && (
-                          <span className="badge bg-secondary text-white" style={{ fontSize: '0.65rem' }}>
-                            +{gym.available_slots.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Facilities Badges */}
-                  {gym.facilities && (
-                    <div>
-                      <small className="text-muted d-block mb-1 fw-semibold" style={{ fontSize: '0.73rem' }}>Facilities:</small>
-                      <div className="d-flex flex-wrap gap-1">
-                        {gym.facilities.slice(0, 3).map((f, fIdx) => (
-                          <span key={fIdx} className="badge badge-role" style={{ fontSize: '0.65rem' }}>
-                            {f}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 <div className="d-flex gap-2 mt-3 pt-2 border-top border-secondary border-opacity-25">
@@ -208,64 +389,7 @@ export const MemberDashboard = () => {
         </div>
       </div>
 
-      {/* Subscription Status Card Module */}
-      <div className="row g-3">
-        <div className="col-12 col-sm-6 col-lg-4">
-          <div className="glass-card-static p-4 h-100 d-flex flex-column justify-content-between">
-            <div>
-              <span className="text-muted text-uppercase fw-semibold" style={{ fontSize: '0.78rem' }}>
-                Subscription Plan Status
-              </span>
-              <h3 className="text-white font-weight-bold mt-2 mb-1">{subscription.plan_title || 'No Plan Active'}</h3>
-              <div className="mt-2 mb-3">
-                {subscription.status === 'ACTIVE' && (
-                  <span className="badge badge-status badge-active">ACTIVE MEMBER</span>
-                )}
-                {subscription.status === 'EXPIRING_SOON' && (
-                  <span className="badge badge-status badge-expiring">EXPIRING SOON</span>
-                )}
-                {(!subscription.status || subscription.status === 'EXPIRED') && (
-                  <span className="badge badge-status badge-expired">EXPIRED</span>
-                )}
-              </div>
-            </div>
-            <div className="pt-3 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-              <span className="text-muted small">
-                <FiClock className="me-1 text-cyan" />
-                {subscription.days_remaining || 0} Days Remaining
-              </span>
-              <button
-                onClick={() => navigate('/member/subscription')}
-                className="btn btn-link text-cyan p-0 small fw-bold text-decoration-none"
-              >
-                View Plan →
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-12 col-sm-6 col-lg-4">
-          <StatCard
-            title="Today's Workout Target"
-            value={`${todaysExercises.length} Exercises`}
-            icon={FiActivity}
-            color="#4F46E5"
-            subtitle={`Scheduled for ${todayDay}`}
-          />
-        </div>
-
-        <div className="col-12 col-sm-12 col-lg-4">
-          <StatCard
-            title="Today's Meal Routine"
-            value={`${todaysMeals.length} Meals`}
-            icon={FiPieChart}
-            color="#22C55E"
-            subtitle={`Scheduled for ${todayDay}`}
-          />
-        </div>
-      </div>
-
-      {/* Today's Checklist Highlights */}
+      {/* Today's Dual Checklist (Workout & Meals) */}
       <div className="row g-4">
         {/* Workout Checklist */}
         <div className="col-12 col-lg-6">
@@ -362,6 +486,40 @@ export const MemberDashboard = () => {
           bmiData={progressSummary.bmi_trend}
         />
       </div>
+
+      {/* Recent Notifications Teaser */}
+      {recentNotifications.length > 0 && (
+        <div className="glass-card-static p-4">
+          <div className="d-flex align-items-center justify-content-between mb-3">
+            <h5 className="text-white font-weight-bold mb-0 d-flex align-items-center gap-2">
+              <FiBell className="text-cyan" /> Recent Member Notifications
+            </h5>
+            <button
+              onClick={() => navigate('/member/notifications')}
+              className="btn btn-secondary-glass btn-sm"
+            >
+              All Notifications →
+            </button>
+          </div>
+
+          <div className="d-flex flex-column gap-2">
+            {recentNotifications.map((notif) => (
+              <div key={notif.id} className="p-3 glass-card rounded-3 d-flex align-items-center justify-content-between gap-3">
+                <div className="d-flex align-items-center gap-2">
+                  <div className="p-2 bg-dark rounded-circle text-cyan">
+                    <FiBell size={14} />
+                  </div>
+                  <div>
+                    <h6 className="text-white fw-bold mb-0" style={{ fontSize: '0.88rem' }}>{notif.title}</h6>
+                    <small className="text-muted">{notif.message}</small>
+                  </div>
+                </div>
+                <small className="text-muted flex-shrink-0">{notif.created_at}</small>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Interactive Gym Details & Slot Booking Modal */}
       {activeGymModal && (
